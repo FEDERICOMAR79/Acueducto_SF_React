@@ -4,7 +4,6 @@ import Flatpickr from 'react-flatpickr';
 /*import 'flatpickr/dist/themes/material_blue.css';*/
 import 'flatpickr/dist/flatpickr.css';
 import '../styles/datepicker-custom.scss';
-import BaseLayout from './BaseLayout';
 
 const plantasEjemplo = [
 	{ planta_id: 1, nombre: 'Planta Principal' },
@@ -29,7 +28,6 @@ const Plantas = () => {
 	};
 
 	return (
-        <BaseLayout>
             <>
                 <div className="periodo-header">
                     <header>
@@ -89,7 +87,6 @@ const Plantas = () => {
 
                 {/* Eliminar todo lo relacionado con OCR, IA y carga de imágenes */}
             </>
-        </BaseLayout>
 	);
 };
 

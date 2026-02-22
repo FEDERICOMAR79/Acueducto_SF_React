@@ -1,13 +1,20 @@
 // src/components/BaseLayout.jsx
 import React from 'react';
 import '../styles/global.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import notiIcon from '../assets/noti-normal.svg';
 import Bombas from '../components/Bombas';
 import Plantas from '../components/Plantas';
 import Stats from '../components/Stats';
 
-function BaseLayout({ children, user, messages }) {
+function BaseLayout({ children, user, messages, setIsAuthenticated }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    navigate('/login');
+  };
+
   return (
     <>
       <header className="topbar">
@@ -20,7 +27,7 @@ function BaseLayout({ children, user, messages }) {
           </a>
           <span className="user-name"></span>
           <div className="user-avatar">👤</div>
-          <div className="logout">| <a href="/logout">Cerrar Sesión</a></div>
+          <div className="logout">| <button onClick={handleLogout} className="logout-btn">Cerrar Sesión</button></div>
         </div>
       </header>
 

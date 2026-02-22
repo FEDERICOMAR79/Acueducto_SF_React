@@ -1,5 +1,4 @@
 import '../styles/Index.scss';
-import BaseLayout from './BaseLayout';
 
 function Index() {
     // Ejemplo de datos, reemplaza por datos reales o props
@@ -23,122 +22,120 @@ function Index() {
     ];
 
     return (
-        <BaseLayout>
-            <main className="container">
-                <header className="dashboard-header">
-                    <h1>Bienvenido, {user.username}!</h1>
-                    <h2>Panel Principal</h2>
-                    <p>Este sistema te permite monitorear y gestionar el consumo de agua y energía del acueducto, registrar consumos, crear bombas y más.</p>
-                </header>
+        <main className="container">
+            <header className="dashboard-header">
+                <h1>Bienvenido, {user.username}!</h1>
+                <h2>Panel Principal</h2>
+                <p>Este sistema te permite monitorear y gestionar el consumo de agua y energía del acueducto, registrar consumos, crear bombas y más.</p>
+            </header>
 
-                <section className="dashboard-summary">
-                    <div className="cards-container">
-                        <div className="summary-card" id="index-card">
-                            <h3>Consumo Energía {mes}</h3>
-                            <p className="summary-value">{total_energia} kWh</p>
-                        </div>
-                        <div className="summary-card" id="index-card">
-                            <h3>Bombeo {mes}</h3>
-                            <p className="summary-value">{total_bombeo} m³</p>
-                        </div>
-                        <div className="summary-card" id="index-card">
-                            <h3>Rebombeo {mes}</h3>
-                            <p className="summary-value">{total_rebombeo} m³</p>
-                        </div>
-                        <div className="summary-card" id="index-card">
-                            <h3>Variación ayer vs hoy {dia}</h3>
-                            <p className="summary-value">{variacion_ayer_vs_hoy} %</p>
-                        </div>
-                        <div className="summary-card" id="index-card">
-                            <h3>M3 Facturados {mes}</h3>
-                            <p className="summary-value">{total_m3_facturados} m³</p>
-                        </div>
-                        <div className="summary-card" id="index-card">
-                            <h3>Usuarios Totales {mes}</h3>
-                            <p className="summary-value">{total_usuarios}</p>
-                        </div>
+            <section className="dashboard-summary">
+                <div className="cards-container">
+                    <div className="summary-card" id="index-card">
+                        <h3>Consumo Energía {mes}</h3>
+                        <p className="summary-value">{total_energia} kWh</p>
+                    </div>
+                    <div className="summary-card" id="index-card">
+                        <h3>Bombeo {mes}</h3>
+                        <p className="summary-value">{total_bombeo} m³</p>
+                    </div>
+                    <div className="summary-card" id="index-card">
+                        <h3>Rebombeo {mes}</h3>
+                        <p className="summary-value">{total_rebombeo} m³</p>
+                    </div>
+                    <div className="summary-card" id="index-card">
+                        <h3>Variación ayer vs hoy {dia}</h3>
+                        <p className="summary-value">{variacion_ayer_vs_hoy} %</p>
+                    </div>
+                    <div className="summary-card" id="index-card">
+                        <h3>M3 Facturados {mes}</h3>
+                        <p className="summary-value">{total_m3_facturados} m³</p>
+                    </div>
+                    <div className="summary-card" id="index-card">
+                        <h3>Usuarios Totales {mes}</h3>
+                        <p className="summary-value">{total_usuarios}</p>
+                    </div>
+                </div>
+            </section>
+
+            <div className="double-group">
+                <section className="dashboard-actions">
+                    <h2>Acciones rápidas</h2>
+                    <div className="actions-grid">
+                        <a href="/consumo_energia" className="action-btn">Registrar Energía</a>
+                        <a href="/consumo_bombeo" className="action-btn">Registrar Bombeo</a>
+                        <a href="/registro_usuarios" className="action-btn">Registrar Usuarios</a>
+                        <a href="/graficas" className="action-btn">Graficas</a>
                     </div>
                 </section>
 
-                <div className="double-group">
-                    <section className="dashboard-actions">
-                        <h2>Acciones rápidas</h2>
-                        <div className="actions-grid">
-                            <a href="/consumo_energia" className="action-btn">Registrar Energía</a>
-                            <a href="/consumo_bombeo" className="action-btn">Registrar Bombeo</a>
-                            <a href="/registro_usuarios" className="action-btn">Registrar Usuarios</a>
-                            <a href="/graficas" className="action-btn">Graficas</a>
-                        </div>
-                    </section>
-
-                    <section className="dashboard-latest">
-                        <div className="table">
-                            <h2>Últimos registros de bombeo</h2>
-                            <table className="latest-table">
-                                <thead>
-                                    <tr>
-                                        <th>Fecha</th>
-                                        <th>Tipo</th>
-                                        <th>Bomba</th>
-                                        <th>Consumo</th>
-                                        <th>Usuario</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {ultimos_registros_bombeo.length > 0 ? (
-                                        ultimos_registros_bombeo.map((registro, idx) => (
-                                            <tr key={idx}>
-                                                <td>{registro.fecha}</td>
-                                                <td>{registro.bomba.tipo.nombre}</td>
-                                                <td>{registro.bomba.nombre}</td>
-                                                <td>{registro.metros_cubicos} m³</td>
-                                                <td>{registro.usuario}</td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan="5">No hay registros recientes</td>
+                <section className="dashboard-latest">
+                    <div className="table">
+                        <h2>Últimos registros de bombeo</h2>
+                        <table className="latest-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Tipo</th>
+                                    <th>Bomba</th>
+                                    <th>Consumo</th>
+                                    <th>Usuario</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {ultimos_registros_bombeo.length > 0 ? (
+                                    ultimos_registros_bombeo.map((registro, idx) => (
+                                        <tr key={idx}>
+                                            <td>{registro.fecha}</td>
+                                            <td>{registro.bomba.tipo.nombre}</td>
+                                            <td>{registro.bomba.nombre}</td>
+                                            <td>{registro.metros_cubicos} m³</td>
+                                            <td>{registro.usuario}</td>
                                         </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div className="table">
-                            <h2>Últimos registros de energía</h2>
-                            <table className="latest-table">
-                                <thead>
+                                    ))
+                                ) : (
                                     <tr>
-                                        <th>Fecha</th>
-                                        <th>Tipo</th>
-                                        <th>Planta</th>
-                                        <th>Consumo</th>
-                                        <th>Usuario</th>
+                                        <td colSpan="5">No hay registros recientes</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {ultimos_registros_energia.length > 0 ? (
-                                        ultimos_registros_energia.map((registro, idx) => (
-                                            <tr key={idx}>
-                                                <td>{registro.fecha}</td>
-                                                <td>{registro.planta.tipo.nombre}</td>
-                                                <td>{registro.planta.nombre}</td>
-                                                <td>{registro.consumo_energia} kWh</td>
-                                                <td>{registro.usuario}</td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan="5">No hay registros recientes</td>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div className="table">
+                        <h2>Últimos registros de energía</h2>
+                        <table className="latest-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Tipo</th>
+                                    <th>Planta</th>
+                                    <th>Consumo</th>
+                                    <th>Usuario</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {ultimos_registros_energia.length > 0 ? (
+                                    ultimos_registros_energia.map((registro, idx) => (
+                                        <tr key={idx}>
+                                            <td>{registro.fecha}</td>
+                                            <td>{registro.planta.tipo.nombre}</td>
+                                            <td>{registro.planta.nombre}</td>
+                                            <td>{registro.consumo_energia} kWh</td>
+                                            <td>{registro.usuario}</td>
                                         </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
-                    </section>
-                </div>
-            </main>
-        </BaseLayout>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="5">No hay registros recientes</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
     );
 }
 export default Index;

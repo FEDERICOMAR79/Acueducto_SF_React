@@ -1,24 +1,60 @@
 import { useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './components/Login';
 import Index from './components/Index';
 import Bombas from './components/Bombas';
 import Plantas from './components/Plantas';
 import Stats from './components/Stats';
-//import reactLogo from './assets/react.svg'
-//import viteLogo from '/vite.svg'
-//import './App.css'
+import BaseLayout from './components/BaseLayout';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/bombas" element={<Bombas />} />
-        <Route path="/plantas" element={<Plantas />} />
-        <Route path="/stats" element={<Stats />} />
+        <Route
+          path="/login"
+          element={
+            isAuthenticated
+              ? <Navigate to="/" />
+              : <Login setIsAuthenticated={setIsAuthenticated} />
+          }
+        />
+        <Route
+          path="/"
+          element={
+            isAuthenticated
+              ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><Index /></BaseLayout>
+              : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/bombas"
+          element={
+            isAuthenticated
+              ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><Bombas /></BaseLayout>
+              : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/plantas"
+          element={
+            isAuthenticated
+              ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><Plantas /></BaseLayout>
+              : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/stats"
+          element={
+            isAuthenticated
+              ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><Stats /></BaseLayout>
+              : <Navigate to="/login" />
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
 }
 
-export default App
+export default App;

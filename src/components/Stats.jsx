@@ -1,11 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/menucons1.scss';
-import BaseLayout from './BaseLayout';
 
 const Stats = () => {
 	return (
-        <BaseLayout>
             <main className="container-stats">
                 {/* Header */}
                 <header className="stats-header">
@@ -67,7 +65,6 @@ const Stats = () => {
                     </div>
                 </section>
             </main>
-        </BaseLayout>
 	);
 };
 

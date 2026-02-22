@@ -3,7 +3,6 @@ import '../styles/consumo.scss';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/flatpickr.css';
 import '../styles/datepicker-custom.scss';
-import BaseLayout from './BaseLayout';
 
 const bombasEjemplo = [
 	{ bomba_id: 1, nombre: 'Bomba Norte' },
@@ -28,7 +27,6 @@ const Bombas = () => {
 	};
 
     return (
-        <BaseLayout>
             <>
                 <div className="periodo-header">
                     <header>
@@ -88,7 +86,6 @@ const Bombas = () => {
                 
                 {/* Eliminar todo lo relacionado con OCR, IA y carga de imágenes */}
             </>
-        </BaseLayout>
     );
 };
 
