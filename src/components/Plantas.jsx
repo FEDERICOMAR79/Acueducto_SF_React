@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import '../styles/consumo.scss';
+import Flatpickr from 'react-flatpickr';
+/*import 'flatpickr/dist/themes/material_blue.css';*/
+import 'flatpickr/dist/flatpickr.css';
+import '../styles/datepicker-custom.scss';
 import BaseLayout from './BaseLayout';
 
 const plantasEjemplo = [
@@ -8,7 +12,7 @@ const plantasEjemplo = [
 ];
 
 const Plantas = () => {
-	const [fechaActual, setFechaActual] = useState(new Date().toISOString().slice(0, 10));
+	const [fechaActual, setFechaActual] = useState(new Date());
 	const [valoresInput, setValoresInput] = useState({});
 	const [invalidIds, setInvalidIds] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -33,16 +37,18 @@ const Plantas = () => {
                     </header>
                     <div className="periodo-actual">
                         <span>Registrando datos para:</span>
-                        <form id="form-fecha" style={{ display: 'inline' }}>
-                            <input
-                                type="text"
-                                name="fecha"
-                                id="datepicker"
-                                value={fechaActual}
-                                readOnly
-                                className="flatpickr-input"
-                            />
-                        </form>
+                        <div className="datepicker-wrapper">
+                          <Flatpickr
+                              value={fechaActual}
+                              options={{
+                                  locale: 'es',
+                                  dateFormat: 'Y-m-d',
+                              }}
+                              onChange={(selectedDates, dateStr) => {
+                                  setFechaActual(selectedDates[0]);
+                              }}
+                          />
+                        </div>
                     </div>
                 </div>
 

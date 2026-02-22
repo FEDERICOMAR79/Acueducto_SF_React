@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import '../styles/consumo.scss';
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/flatpickr.css';
+import '../styles/datepicker-custom.scss';
 import BaseLayout from './BaseLayout';
 
 const bombasEjemplo = [
@@ -8,7 +11,7 @@ const bombasEjemplo = [
 ];
 
 const Bombas = () => {
-	const [fechaActual, setFechaActual] = useState(new Date().toISOString().slice(0, 10));
+    const [fechaActual, setFechaActual] = useState(new Date());
 	const [valoresInput, setValoresInput] = useState({});
 	const [invalidIds, setInvalidIds] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -24,7 +27,7 @@ const Bombas = () => {
 		setTimeout(() => setLoading(false), 2000); // Simula carga
 	};
 
-	return (
+    return (
         <BaseLayout>
             <>
                 <div className="periodo-header">
@@ -33,19 +36,21 @@ const Bombas = () => {
                     </header>
                     <div className="periodo-actual">
                         <span>Registrando datos para:</span>
-                        <form id="form-fecha" style={{ display: 'inline' }}>
-                            <input
-                                type="text"
-                                name="fecha"
-                                id="datepicker"
+                        <div className="datepicker-wrapper bombas">
+                            <Flatpickr
                                 value={fechaActual}
-                                readOnly
-                                className="flatpickr-input"
+                                options={{
+                                    locale: 'es',
+                                    dateFormat: 'Y-m-d',
+                                }}
+                                onChange={(selectedDates, dateStr) => {
+                                    setFechaActual(selectedDates[0]);
+                                }}
                             />
-                        </form>
+                        </div>
                     </div>
                 </div>
-
+                
                 <div className="bombas-grid">
                     <form id="form-bombeo" onSubmit={handleSubmit}>
                         {bombasEjemplo.map((bomba) => (
@@ -80,11 +85,11 @@ const Bombas = () => {
                         </div>
                     </form>
                 </div>
-
+                
                 {/* Eliminar todo lo relacionado con OCR, IA y carga de imágenes */}
             </>
         </BaseLayout>
-	);
+    );
 };
 
 export default Bombas;
