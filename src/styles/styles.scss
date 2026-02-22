@@ -1,0 +1,158 @@
+/* ===== CONTENEDOR GENERAL ===== */
+.auth-container {
+    background: #1e1e1e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    color: #fff;
+}
+
+/* ===== TARJETA ===== */
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    background: #2a2a2a;
+    border-radius: 14px;
+    padding: 35px 30px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    justify-content: center;
+}
+
+.sign-card {
+    width: 100%;
+    max-width: 500px;
+    background: #2a2a2a;
+    border-radius: 14px;
+    padding: 35px 30px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    justify-content: center;
+}
+
+/* ===== TITULOS ===== */
+.auth-card h1 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.form-title {
+    font-size: 24px;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.auth-card p {
+    text-align: center;
+    font-size: 14px;
+    color: #38dbc2;
+    margin-bottom: 30px;
+}
+
+/* ===== CAMPOS ===== */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 15px;
+    font-weight: 450;
+    margin-bottom: 6px;
+    color: #41b7ad;
+}
+
+/* Inputs */
+.form-control {
+    width: 100%;
+    background: #1f1f1f;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    padding: 12px;
+    color: #ffffff;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.form-control::placeholder {
+    color: #888;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #03433e;
+    box-shadow: 0 0 0 2px rgba(34, 211, 197, 0.15);
+}
+
+.double-user-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* ===== PASSWORD TOGGLE ===== */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    padding-right: 45px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    transition: color 0.2s ease;
+}
+
+.toggle-password:hover {
+    color: #41b7ad;
+}
+
+.eye-icon {
+    font-size: 12px;
+}
+
+/* ===== BOTON ===== */
+.btn-primary {
+    width: 100%;
+    background: #03433e;
+    border: none;
+    border-radius: 10px;
+    padding: 13px;
+    color: #eff5f5;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.25s ease, transform 0.15s ease;
+}
+
+.btn-primary:hover {
+    background: #14a6a2;
+    transform: translateY(-1px);
+}
+
+
+.form-links {
+    margin-top: 15px;
+    text-align: center;
+    border-top: 1px solid #444;
+    padding-top: 15px;
+}
+
+.link-btn {
+    color: #41b7ad;
+    text-decoration: none;
+    font-size: 16px;
+}
