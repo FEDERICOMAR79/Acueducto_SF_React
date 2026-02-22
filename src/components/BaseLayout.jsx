@@ -1,7 +1,11 @@
 // src/components/BaseLayout.jsx
 import React from 'react';
 import '../styles/global.scss';
+import { Link } from 'react-router-dom';
 import notiIcon from '../assets/noti-normal.svg';
+import Bombas from '../components/Bombas';
+import Plantas from '../components/Plantas';
+import Stats from '../components/Stats';
 
 function BaseLayout({ children, user, messages }) {
   return (
@@ -21,13 +25,12 @@ function BaseLayout({ children, user, messages }) {
       </header>
 
       {/* Menú horizontal */}
-        <nav className="main-menu" id="main-menu">
-          <a href="/">Resumen</a>
-          <a href="/bombas">Bombas</a>
-          <a href="/plantas">Plantas</a>
-          <a href="/stats">Stats</a>
-        </nav>
-
+      <nav className="main-menu" id="main-menu">
+        <Link to="/">Resumen</Link>
+        <Link to="/bombas">Bombas</Link>
+        <Link to="/plantas">Plantas</Link>
+        <Link to="/stats">Stats</Link>
+      </nav>
       <main className="container">
         {/* Aquí va el contenido específico de cada página */}
         {children}

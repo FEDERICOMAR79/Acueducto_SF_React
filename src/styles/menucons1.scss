@@ -1,0 +1,60 @@
+/* Contenedor principal */
+.menu-consumos {
+    min-height: calc(80vh - 220px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 50px;
+    background-color: #1e1e1e;
+}
+
+/* Botones */
+.menu-consumos .btn {
+    background-color: #19c7c2;
+    color: #0f1f1f;
+    padding: 14px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    text-align: center;
+    min-width: 160px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    transition: all 0.25s ease;
+}
+
+/* Hover elegante */
+.menu-consumos .btn:hover {
+    background-color: #19c7c2;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
+}
+
+/* Click */
+.menu-consumos .btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+/* Estilos para el contenedor de menú de consumos */
+.consumos-conteiner {
+    min-height: 100vh;
+    background: #1e1e1e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    color: #fff;
+}
+
+/* ===== TARJETA ===== */
+.consumos-card {
+    width: 100%;
+    max-width: 420px;
+    background: #2a2a2a;
+    border-radius: 14px;
+    padding: 20px 20px;
+    box-shadow: 0 15px 35px rgb(88 208 189 / 50%);
+}

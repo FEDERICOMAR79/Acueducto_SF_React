@@ -1,0 +1,1084 @@
+/* =========================
+   Grid de bombas - 3 columnas fijas
+   ========================= */
+.bombas-grid {
+    display: contents;
+    /* Permite que los hijos participen en el layout del padre */
+}
+
+.bombas-grid form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 columnas iguales */
+    gap: 30px;
+    margin-top: 30px;
+    width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .bombas-grid form {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columnas en tablet */
+    }
+}
+
+@media (max-width: 768px) {
+    .bombas-grid form {
+        grid-template-columns: 1fr;
+        /* 1 columna en móvil */
+    }
+}
+
+/* =========================
+   Tarjeta de cada bomba
+   ========================= */
+.bomba-card {
+    background: #2b2b2b;
+    padding: 28px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bomba-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+}
+
+.bomba-card h3 {
+    color: #27d3c3;
+    margin-bottom: 24px;
+    font-size: 20px;
+    text-align: center;
+}
+
+/* =========================
+   Input group
+   ========================= */
+.input-group {
+    position: relative;
+    margin-bottom: 0;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Contenedor para el input y su label cuando hay botones */
+.input-group:has(.btn-increment) input,
+.input-group:has(.btn-decrement) input {
+    position: relative;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 20px 14px 8px;
+    background: #3a3a3a;
+    border: 1px solid #555;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #03433e;
+    box-shadow: 0 0 0 2px rgba(34, 211, 197, 0.15);
+}
+
+.input-group label {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #bdbdbd;
+    font-size: 15px;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    background: #3a3a3a;
+    padding: 0 8px;
+    font-weight: 500;
+}
+
+/* Ajustar el left del label cuando hay botones de decremento */
+.input-group:has(.btn-decrement) label {
+    left: 45px;
+}
+
+.input-group input:focus+label,
+.input-group input:not(:placeholder-shown)+label {
+    top: 8px;
+    font-size: 12px;
+    color: #27d3c3;
+    transform: translateY(0);
+}
+
+/* =========================
+   Ajustes de flechas (inputs numéricos)
+   ========================= */
+.input-group input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.input-group input[type="number"]::-webkit-outer-spin-button,
+.input-group input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* =========================
+   Botones de incremento/decremento
+   ========================= */
+.btn-increment,
+.btn-decrement {
+    width: 30px;
+    height: 30px;
+    background: #0a6b64;
+    border: 0px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.btn-increment:hover,
+.btn-decrement:hover {
+    background: linear-gradient(135deg, #14a6a2 0%, #27d3c3 100%);
+    border-color: #0c7b74;
+    transform: translateY(-1px);
+}
+
+/* =========================
+   BOTÓN SUBMIT - Centrado en toda la pantalla
+   ========================= */
+.form-submit {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    /* separación entre botones */
+    flex-wrap: wrap;
+    /* permite que se apilen en pantallas pequeñas */
+    margin-top: 40px;
+    padding-top: 15px;
+    border-top: 1px solid #444;
+    align-items: flex-start;
+}
+
+.form-submit button {
+    padding: 10px 18px;
+    background: #03433e;
+    border: none;
+    border-radius: 14px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    color: #eff5f5;
+    height: 50px;
+    text-transform: capitalize;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 0.8px;
+}
+
+.form-submit .registrar-btn {
+    padding: 20px 18px;
+
+    font-size: 16px;
+    height: 60px;
+    font-weight: 550;
+}
+
+.form-submit button:hover {
+    background-color: #14a6a2;
+    transform: translateY(-3px);
+}
+
+.form-submit button:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 14px rgba(39, 211, 195, 0.35);
+}
+
+/* =========================
+   Encabezado del periodo
+   ========================= */
+.periodo-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+}
+
+.periodo-header h1 {
+    font-size: 1.8rem;
+    color: #eff5f5;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.periodo-actual {
+    font-size: 18px;
+    color: #bdbdbd;
+}
+
+.periodo-actual strong {
+    color: #41b7ad;
+    font-size: 18px;
+}
+
+.periodo-actual input {
+    color: #41b7ad;
+    text-decoration: none;
+    font-weight: 600;
+    background-color: transparent;
+    padding: 4px 10px;
+    border: 0.5px solid #41b7ad;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.periodo-actual a:hover {
+    text-decoration: none;
+    background: rgba(39, 211, 195, 0.1);
+}
+
+.facturacion-container {
+    max-width: 60%;
+    margin: 40px auto;
+    padding: 20px;
+    background: #2b2b2b;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+#m3-facturados-group {
+    margin-top: 20px;
+    max-width: 500px;
+}
+
+.facturacion-card {
+    background-color: #2b2b2b;
+    display: grid;
+    border-radius: 16px;
+
+    text-align: center;
+    box-shadow: none;
+    justify-content: center;
+}
+
+.facturacion-card h3 {
+    color: #99dada;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+
+/* Estadisticas de consumo */
+.container-stats {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px;
+    align-items: stretch;
+    padding-bottom: 50px;
+}
+
+/* Grid principal de tarjetas */
+.menu-registros-grid {
+    display: contents;
+}
+
+.menu-item-card {
+    display: block;
+    height: 100%;
+}
+
+
+
+.menu-item-card .menu-summary-card {
+    background-color: #2b2b2b;
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+    height: clamp(420px, 60vh, 540px);
+}
+
+.menu-summary-card h3 {
+    color: #99dada;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Contenedor principal */
+.menu-stats {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: center;
+    align-content: start;
+    row-gap: 20px;
+    column-gap: 16px;
+    padding: 24px;
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    overflow-y: auto;
+}
+
+/* Botones */
+.btn {
+    background-color: #0a6b64;
+    color: #eff5f5;
+    text-align: center;
+    border-radius: 10px;
+    padding: 14px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Hover elegante */
+.menu-stats .btn:hover {
+    background-color: #14a6a2;
+    transform: translateY(-0.5px);
+}
+
+/* =========================
+   DASHBOARD ESTADÍSTICAS
+   ========================= */
+.stats-header {
+    color: #ffffff;
+    padding: 20px 30px;
+    border-radius: 14px;
+    margin-bottom: 3px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    grid-column: 1 / -1;
+}
+
+.stats-header h1 {
+    font-size: 1.8rem;
+    color: #eff5f5;
+    text-align: right;
+}
+
+.stats-header h2 {
+    font-size: 1.8rem;
+    color: #eff5f5;
+    text-align: center;
+    grid-column: 2;
+}
+
+.stats-header p {
+    display: none;
+    /* el wireframe no muestra texto largo */
+}
+
+.stats-header .link-graficas {
+    grid-column: 3;
+    justify-self: end;
+}
+
+.graficas-header {
+    text-align: center;
+    margin-bottom: 10px;
+    padding-bottom: 20px;
+}
+
+.graficas-header h1 {
+    font-size: 1.8rem;
+    color: #eff5f5;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* =========================
+   RESPONSIVE MENU REGISTROS
+   ========================= */
+@media (max-width: 1100px) {
+    .menu-registros-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .menu-registros-grid>.menu-item-card:last-child:nth-child(3n + 1) {
+        grid-column: auto;
+    }
+}
+
+@media (max-width: 820px) {
+    .stats-header {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .stats-header h2 {
+        grid-column: 1;
+        text-align: center;
+    }
+
+    .stats-header .link-graficas {
+        grid-column: 1;
+        justify-self: center;
+    }
+
+    .menu-registros-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-stats {
+        min-height: auto;
+        padding: 24px;
+        width: 100%;
+        grid-template-columns: 1fr;
+    }
+
+    .menu-stats .btn {
+        width: 100%;
+    }
+
+    h2 {
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 520px) {
+    .container-stats {
+        padding: 16px 12px;
+    }
+
+    .stats-header {
+        padding: 16px;
+    }
+
+    .stats-header h2 {
+        font-size: 1.4rem;
+    }
+
+    .menu-stats {
+        padding: 18px;
+        gap: 12px;
+    }
+}
+
+
+/* =========================
+   TABLAS DE REGISTROS
+   ========================= */
+
+.btn-editar {
+    background-color: #03433e;
+    color: #eff5f5;
+    text-align: center;
+    border-radius: 8px;
+    padding: 5%;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.btn-editar:hover {
+    background-color: #14a6a2;
+    transform: translateY(-0.5px);
+}
+
+.btn-eliminar {
+    background-color: #03433e;
+    color: #eff5f5;
+    text-align: center;
+    border-radius: 8px;
+    padding: 5%;
+    text-decoration: none;
+    font-size: 13px;
+    width: fit-content;
+}
+
+.btn-eliminar:hover {
+    background-color: #e74c3c;
+    transform: translateY(-0.5px);
+}
+
+/* Estilo para la paginación */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.page-info {
+    margin-right: 20px;
+    color: #bdbdbd;
+    white-space: nowrap;
+}
+
+.pagination nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.pagination nav a,
+.pagination nav span {
+    margin: 0 5px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.pagination nav a.btn-paginacion {
+    background-color: #03433e;
+    color: #eff5f5;
+}
+
+.pagination nav a.btn-paginacion:hover {
+    background-color: #14a6a2;
+    transform: translateY(-0.5px);
+}
+
+.pagination nav span.page-current {
+    background-color: #14a6a2;
+    color: #eff5f5;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .pagination {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .page-info {
+        margin-right: 0;
+        text-align: center;
+    }
+
+    .pagination nav {
+        justify-content: center;
+    }
+
+    .pagination nav a,
+    .pagination nav span {
+        margin: 0;
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+}
+
+/* TABLA CONSUMOS - 3 columnas */
+
+/* Table */
+.consumo-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    background: #333333;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    table-layout: fixed;
+}
+
+.consumo-table thead {
+    background: #d3d3d3;
+}
+
+.consumo-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 630;
+    color: #03433e;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+/* Distribución para 3 columnas */
+.consumo-table th:nth-child(1),
+.consumo-table td:nth-child(1) {
+    width: 25%;
+}
+
+.consumo-table th:nth-child(2),
+.consumo-table td:nth-child(2) {
+    width: 35%;
+    padding-left: 30px;
+}
+
+.consumo-table th:nth-child(3),
+.consumo-table td:nth-child(3) {
+    width: 40%;
+    text-align: center;
+}
+
+.consumo-table tbody tr {
+    border-bottom: 1px solid #e0e0e0;
+    transition: background 0.2s ease;
+}
+
+.consumo-table tbody tr:hover {
+    background: #5b5b5b;
+}
+
+.consumo-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.consumo-table td {
+    padding: 15px;
+    color: #eff5f5;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+/* TABLA ENERGIA TOTAL - 3 columnas */
+.energia-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    background: #333333;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    table-layout: fixed;
+}
+
+.energia-table thead {
+    background: #d3d3d3;
+}
+
+.energia-table th {
+    padding: 16px 18px;
+    text-align: left;
+    font-weight: 630;
+    color: #03433e;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.energia-table tbody tr {
+    border-bottom: 1px solid #e0e0e0;
+    transition: background 0.2s ease;
+}
+
+.energia-table tbody tr:hover {
+    background: #5b5b5b;
+}
+
+.energia-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.energia-table td {
+    padding: 16px 18px;
+    color: #eff5f5;
+}
+
+.energia-table th:nth-child(1),
+.energia-table td:nth-child(1) {
+    width: 42%;
+}
+
+.energia-table td:nth-child(1) {
+    word-break: break-word;
+}
+
+.energia-table th:nth-child(2),
+.energia-table td:nth-child(2),
+.energia-table th:nth-child(3),
+.energia-table td:nth-child(3) {
+    width: 29%;
+    text-align: center;
+}
+
+
+
+/* =========================
+   Sección de Filtros
+   ========================= */
+.filtros-section {
+    background: #2b2b2b;
+    padding: 25px 30px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.filtros-container {
+    display: flex;
+    align-self: flex-end;
+}
+
+.filtros-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    align-items: center;
+}
+
+.filtro-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filtro-grupo label {
+    color: #99dada;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filtro-grupo select,
+.filtro-grupo input[type="date"] {
+    padding: 12px 14px;
+    background: #3a3a3a;
+    border: 2px solid #555;
+    border-radius: 8px;
+    color: #eff5f5;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.filtro-grupo select:hover,
+.filtro-grupo input[type="date"]:hover {
+    outline: none;
+    border-color: #03433e;
+    box-shadow: 0 0 0 2px rgba(34, 211, 197, 0.15);
+}
+
+.filtro-grupo select:focus,
+.filtro-grupo input[type="date"]:focus {
+    outline: none;
+    border-color: #03433e;
+    box-shadow: 0 0 0 3px rgba(39, 211, 195, 0.15);
+}
+
+.filtro-grupo select option {
+    background: #3a3a3a;
+    color: #eff5f5;
+}
+
+.filtro-grupo button,
+.filtro-grupo a {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.btn-filtrar {
+    background: #0a6b64;
+    color: #eff5f5;
+}
+
+#exportar-btn {
+    margin-bottom: 20px;
+    max-width: fit-content;
+    background: #085a55;
+}
+
+.btn-filtrar:hover {
+    background: #14a6a2;
+    transform: translateY(-1px);
+}
+
+/* Responsive para tablas: permitir scroll horizontal en pantallas pequeñas */
+@media (max-width: 760px) {
+    .tabla-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .consumo-table {
+        display: block;
+        width: 100%;
+        white-space: nowrap;
+    }
+
+    .consumo-table thead,
+    .consumo-table tbody,
+    .consumo-table tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .consumo-table th,
+    .consumo-table td {
+        padding: 12px;
+    }
+
+    .energia-table {
+        min-width: 720px;
+    }
+
+    .energia-table th,
+    .energia-table td {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 420px) {
+
+    .consumo-table th,
+    .consumo-table td {
+        padding: 10px;
+        font-size: 0.95rem;
+    }
+
+    .energia-table th,
+    .energia-table td {
+        padding: 10px;
+        font-size: 0.95rem;
+    }
+}
+
+.btn-limpiar {
+    background: #555;
+    color: #eff5f5;
+    display: inline-block;
+}
+
+.btn-limpiar:hover {
+    background: #666;
+    transform: translateY(-1px);
+}
+
+/* Responsive para los filtros */
+@media (max-width: 768px) {
+    .filtros-form {
+        grid-template-columns: 1fr;
+    }
+
+    .filtro-grupo:last-child {
+        grid-column: 1 / -1;
+        display: flex;
+        gap: 10px;
+    }
+
+    .filtro-grupo:last-child button,
+    .filtro-grupo:last-child a {
+        flex: 1;
+    }
+
+    .acciones {
+        display: grid;
+        gap: 5px;
+    }
+}
+
+
+/* =========================
+   Editar Formulario
+   ========================= */
+.edit-form {
+    background: #2b2b2b;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    max-width: 500px;
+    margin: 40px auto;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.form-header h2 {
+    color: #eff5f5;
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.form-subtitle {
+    color: #99dada;
+    font-size: 14px;
+}
+
+.edit-form p {
+    margin-bottom: 16px;
+}
+
+.edit-form label {
+    display: block;
+    color: #99dada;
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+
+.edit-form input,
+.edit-form select,
+.edit-form textarea {
+    width: 100%;
+    background: #1f1f1f;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    padding: 12px;
+    color: #eff5f5;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.edit-form input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.edit-form input[type="number"]::-webkit-outer-spin-button,
+.edit-form input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.edit-form input:focus,
+.edit-form select:focus,
+.edit-form textarea:focus {
+    outline: none;
+    border-color: #03433e;
+    box-shadow: 0 0 0 2px rgba(34, 211, 197, 0.15);
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+
+
+.edit-form .btn-primary {
+    flex: 1;
+    margin-top: 0;
+    font-weight: unset;
+}
+
+.cancel-link {
+    flex: 1;
+    text-align: center;
+    background: #3a3a3a;
+    color: #eff5f5;
+    border-radius: 10px;
+    padding: 12px;
+    text-decoration: none;
+    transition: background 0.25s ease, transform 0.15s ease;
+}
+
+.cancel-link:hover {
+    background: #4a4a4a;
+    transform: translateY(-1px);
+}
+
+.input-error {
+    border: 2px solid #ff5c5c !important;
+    box-shadow: 0 0 0 2px rgba(255, 92, 92, 0.2);
+}
+
+/* --- Spinner de Carga (Overlay) --- */
+.loading-overlay {
+    display: none;
+    /* Oculto inicialmente */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    /* Fondo oscuro semitransparente */
+    z-index: 20000;
+    /* Asegura que esté por encima de todo */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner {
+    border: 5px solid #f3f3f3;
+    /* Fondo del anillo (gris claro) */
+    border-top: 5px solid #27d3c3;
+    /* Parte giratoria (Tu color turquesa) */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+.loading-text {
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 520px) {
+    .edit-form {
+        padding: 24px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .edit-form .btn-primary,
+    .cancel-link {
+        width: 100%;
+    }
+
+    .acciones {
+        display: grid;
+        gap: 5px;
+    }
+}
