@@ -1,5 +1,5 @@
-import "../styles/Index.scss";
-import BaseLayout from './components/BaseLayout';
+import '../styles/Index.scss';
+import BaseLayout from './BaseLayout';
 
 function Index() {
     // Ejemplo de datos, reemplaza por datos reales o props
