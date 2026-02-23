@@ -5,7 +5,7 @@ import "../styles/dashboard.scss";
 
 const ContadorDiarioBombeo = () => {
   const [bombas, setBombas] = useState([]);
-  const registros = JSON.parse(localStorage.getItem("datosContadores") || "[]");
+  const [registros, setRegistros] = useState(JSON.parse(localStorage.getItem("datosContadores") || "[]"));
   const [bombaId, setBombaId] = useState("");
   const [fecha, setFecha] = useState("");
   const [page, setPage] = useState(1);
@@ -28,6 +28,18 @@ const ContadorDiarioBombeo = () => {
     setBombas(data.bombas);
     setRegistros(data.registros);
     setTotalPages(data.total_pages);
+  };
+
+  // Función para eliminar un registro por id o índice
+  const handleEliminar = (id, idx) => {
+    let nuevosRegistros = [...registros];
+    if (id !== undefined && id !== null) {
+      nuevosRegistros = nuevosRegistros.filter(r => r.id !== id);
+    } else {
+      nuevosRegistros.splice(idx, 1);
+    }
+    setRegistros(nuevosRegistros);
+    localStorage.setItem("datosContadores", JSON.stringify(nuevosRegistros));
   };
 
   return (
@@ -107,8 +119,8 @@ const ContadorDiarioBombeo = () => {
                   </td>
                 </tr>
               ) : (
-                registros.map((r) => (
-                  <tr key={r.id}>
+                registros.map((r, idx) => (
+                  <tr key={r.id || idx}>
                     <td>{r.fecha}</td>
                     <td>{r.bomba}</td>
                     <td>{r.valor}</td>
@@ -116,7 +128,11 @@ const ContadorDiarioBombeo = () => {
                       <button className="btn-editar">Editar</button>
                       <button
                         className="btn-eliminar"
-                        onClick={() => window.confirm("¿Eliminar registro?")}
+                        onClick={() => {
+                          if (window.confirm("¿Eliminar registro?")) {
+                            handleEliminar(r.id, idx);
+                          }
+                        }}
                       >
                         Eliminar
                       </button>
