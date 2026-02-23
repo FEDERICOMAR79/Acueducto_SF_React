@@ -4,7 +4,7 @@ import "../styles/monthpicker-contador.scss";
 
 const ContadorDiarioKwh = () => {
   const [plantas, setPlantas] = useState([]);
-  const registros = JSON.parse(localStorage.getItem("datosPlantas") || "[]");
+  const [registros, setRegistros] = useState(JSON.parse(localStorage.getItem("datosPlantas") || "[]"));
   const [plantaId, setPlantaId] = useState("");
   const [fecha, setFecha] = useState("");
   const [page, setPage] = useState(1);
@@ -27,6 +27,20 @@ const ContadorDiarioKwh = () => {
     setPlantas(data.plantas);
     setRegistros(data.registros);
     setTotalPages(data.total_pages);
+  };
+
+  // Función para eliminar un registro por id o índice
+  const handleEliminar = (id, idx) => {
+    // Usar id si existe, si no, usar el índice
+    let nuevosRegistros = [...registros];
+    if (id !== undefined && id !== null) {
+      nuevosRegistros = nuevosRegistros.filter(r => r.id !== id);
+    } else {
+      nuevosRegistros.splice(idx, 1);
+    }
+    setRegistros(nuevosRegistros);
+    // Actualizar localStorage
+    localStorage.setItem("contador_diario_kwh_registros", JSON.stringify(nuevosRegistros));
   };
 
   return (
@@ -117,7 +131,11 @@ const ContadorDiarioKwh = () => {
                       <button className="btn-editar">Editar</button>
                       <button
                         className="btn-eliminar"
-                        onClick={() => window.confirm("¿Eliminar registro?")}
+                        onClick={() => {
+                          if (window.confirm("¿Eliminar registro?")) {
+                            handleEliminar(r.id, idx);
+                          }
+                        }}
                       >
                         Eliminar
                       </button>
