@@ -6,6 +6,9 @@ import Bombas from './components/Bombas';
 import Plantas from './components/Plantas';
 import Stats from './components/Stats';
 import BaseLayout from './components/BaseLayout';
+import Signup from './components/signup';
+import ContadorDiarioBombeo from './components/ContadorDiarioBombeo';
+import ContadorDiarioKwh from './components/ContadorDiarioKwh';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -19,6 +22,10 @@ function App() {
               ? <Navigate to="/" />
               : <Login setIsAuthenticated={setIsAuthenticated} />
           }
+        />
+        <Route
+          path="/signup"
+          element={<Signup />}
         />
         <Route
           path="/"
@@ -49,6 +56,22 @@ function App() {
           element={
             isAuthenticated
               ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><Stats /></BaseLayout>
+              : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/ContadorDiarioBombeo"
+          element={
+            isAuthenticated
+              ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><ContadorDiarioBombeo /></BaseLayout>
+              : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/ContadorDiarioKwh"
+          element={
+            isAuthenticated
+              ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><ContadorDiarioKwh /></BaseLayout>
               : <Navigate to="/login" />
           }
         />

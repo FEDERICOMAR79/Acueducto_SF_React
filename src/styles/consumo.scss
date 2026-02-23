@@ -1082,3 +1082,73 @@
         gap: 5px;
     }
 }
+
+.tabla-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.consumo-table {
+  min-width: 0;
+  width: 100%;
+}
+
+.consumo-table th:last-child,
+.consumo-table td.acciones {
+  width: 120px;
+  text-align: center;
+}
+
+.btn-editar,
+.btn-eliminar {
+  min-width: 70px;
+  width: auto;
+  padding: 8px 14px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .acciones {
+    flex-direction: row;
+    gap: 6px;
+    align-items: center;
+  }
+  .btn-editar,
+  .btn-eliminar {
+    min-width: 60px;
+    font-size: 13px;
+    padding: 8px 10px;
+    width: auto;
+  }
+}
+
+@media (max-width: 800px) {
+  .acciones {
+    flex-direction: column;
+    gap: 6px;
+    align-items: stretch;
+  }
+  .btn-editar,
+  .btn-eliminar {
+    width: 100%;
+    min-width: 0;
+    padding: 10px 0;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 500px) {
+  .acciones {
+    flex-direction: column;
+    gap: 4px;
+    align-items: stretch;
+  }
+  .btn-editar,
+  .btn-eliminar {
+    width: 100%;
+    min-width: 0;
+    font-size: 13px;
+    padding: 8px 0;
+  }
+}

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import "../styles/monthSelect.css";
-import "../styles/monthpicker-contador.css";
+import "../styles/monthSelect.scss";
+import "../styles/monthpicker-contador.scss";
+import "../styles/dashboard.scss";
 
 const ContadorDiarioBombeo = () => {
   const [bombas, setBombas] = useState([]);
-  const [registros, setRegistros] = useState([]);
+  const [registros, setRegistros] = useState(JSON.parse(localStorage.getItem("datosContadores") || "[]"));
   const [bombaId, setBombaId] = useState("");
   const [fecha, setFecha] = useState("");
   const [page, setPage] = useState(1);
@@ -27,6 +28,18 @@ const ContadorDiarioBombeo = () => {
     setBombas(data.bombas);
     setRegistros(data.registros);
     setTotalPages(data.total_pages);
+  };
+
+  // Función para eliminar un registro por id o índice
+  const handleEliminar = (id, idx) => {
+    let nuevosRegistros = [...registros];
+    if (id !== undefined && id !== null) {
+      nuevosRegistros = nuevosRegistros.filter(r => r.id !== id);
+    } else {
+      nuevosRegistros.splice(idx, 1);
+    }
+    setRegistros(nuevosRegistros);
+    localStorage.setItem("datosContadores", JSON.stringify(nuevosRegistros));
   };
 
   return (
@@ -65,6 +78,7 @@ const ContadorDiarioBombeo = () => {
               type="month"
               value={fecha}
               onChange={(e) => setFecha(e.target.value)}
+              className="monthpicker-custom"
             />
           </div>
 
@@ -88,7 +102,7 @@ const ContadorDiarioBombeo = () => {
       {/* Tabla */}
       <section className="dashboard-latest">
         <div className="tabla-container">
-          <table className="data-table">
+          <table className="consumo-table">
             <thead>
               <tr>
                 <th>Fecha</th>
@@ -105,16 +119,20 @@ const ContadorDiarioBombeo = () => {
                   </td>
                 </tr>
               ) : (
-                registros.map((r) => (
-                  <tr key={r.id}>
+                registros.map((r, idx) => (
+                  <tr key={r.id || idx}>
                     <td>{r.fecha}</td>
                     <td>{r.bomba}</td>
-                    <td>{r.metros_cubicos}</td>
+                    <td>{r.valor}</td>
                     <td className="acciones">
                       <button className="btn-editar">Editar</button>
                       <button
                         className="btn-eliminar"
-                        onClick={() => window.confirm("¿Eliminar registro?")}
+                        onClick={() => {
+                          if (window.confirm("¿Eliminar registro?")) {
+                            handleEliminar(r.id, idx);
+                          }
+                        }}
                       >
                         Eliminar
                       </button>

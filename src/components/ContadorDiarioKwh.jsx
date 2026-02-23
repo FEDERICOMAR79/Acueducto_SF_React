@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import "../styles/monthSelect.css";
-import "../styles/monthpicker-contador.css";
+import "../styles/monthSelect.scss";
+import "../styles/monthpicker-contador.scss";
 
 const ContadorDiarioKwh = () => {
   const [plantas, setPlantas] = useState([]);
-  const [registros, setRegistros] = useState([]);
+  const [registros, setRegistros] = useState(JSON.parse(localStorage.getItem("datosPlantas") || "[]"));
   const [plantaId, setPlantaId] = useState("");
   const [fecha, setFecha] = useState("");
   const [page, setPage] = useState(1);
@@ -27,6 +27,20 @@ const ContadorDiarioKwh = () => {
     setPlantas(data.plantas);
     setRegistros(data.registros);
     setTotalPages(data.total_pages);
+  };
+
+  // Función para eliminar un registro por id o índice
+  const handleEliminar = (id, idx) => {
+    // Usar id si existe, si no, usar el índice
+    let nuevosRegistros = [...registros];
+    if (id !== undefined && id !== null) {
+      nuevosRegistros = nuevosRegistros.filter(r => r.id !== id);
+    } else {
+      nuevosRegistros.splice(idx, 1);
+    }
+    setRegistros(nuevosRegistros);
+    // Actualizar localStorage
+    localStorage.setItem("contador_diario_kwh_registros", JSON.stringify(nuevosRegistros));
   };
 
   return (
@@ -88,20 +102,10 @@ const ContadorDiarioKwh = () => {
         </form>
       </section>
 
-      {/* Botón exportar */}
-      <div className="filtro-grupo">
-        <a
-          className="btn-filtrar"
-          href={`/api/export-contador-diario-kwh?fecha=${fecha}`}
-        >
-          Descargar XLSX
-        </a>
-      </div>
-
       {/* Tabla */}
       <section className="dashboard-latest">
         <div className="tabla-container">
-          <table className="data-table">
+          <table className="consumo-table">
             <thead>
               <tr>
                 <th>Fecha</th>
@@ -118,20 +122,20 @@ const ContadorDiarioKwh = () => {
                   </td>
                 </tr>
               ) : (
-                registros.map((r) => (
-                  <tr key={r.id}>
+                registros.map((r, idx) => (
+                  <tr key={r.id || idx}>
                     <td>{r.fecha}</td>
                     <td>{r.planta}</td>
-                    <td>{r.consumo_energia}</td>
+                    <td>{r.valor || r.consumo_energia}</td>
                     <td className="acciones">
                       <button className="btn-editar">Editar</button>
                       <button
                         className="btn-eliminar"
-                        onClick={() =>
-                          window.confirm(
-                            "¿Estás seguro de que deseas eliminar este registro?"
-                          )
-                        }
+                        onClick={() => {
+                          if (window.confirm("¿Eliminar registro?")) {
+                            handleEliminar(r.id, idx);
+                          }
+                        }}
                       >
                         Eliminar
                       </button>

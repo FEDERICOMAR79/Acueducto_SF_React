@@ -22,7 +22,23 @@ const Plantas = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		// Aquí iría la lógica de validación y envío
+		const submitter = e.nativeEvent.submitter;
+		if (submitter && submitter.classList.contains('registrar-btn')) {
+			const fechaStr = fechaActual.toISOString().split('T')[0]; // formato YYYY-MM-DD
+			const datosPlantas = JSON.parse(localStorage.getItem('datosPlantas') || '[]');
+			plantasEjemplo.forEach((planta) => {
+				if (valoresInput[planta.planta_id]) {
+					// Guarda cada registro como un objeto con fecha, planta y valor
+					datosPlantas.push({
+						fecha: fechaStr,
+						planta: planta.nombre,
+						planta_id: planta.planta_id,
+						valor: valoresInput[planta.planta_id]
+					});
+				}
+			});
+			localStorage.setItem('datosPlantas', JSON.stringify(datosPlantas));
+		}
 		setLoading(true);
 		setTimeout(() => setLoading(false), 2000); // Simula carga
 	};
