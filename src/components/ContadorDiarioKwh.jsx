@@ -4,43 +4,47 @@ import "../styles/monthpicker-contador.scss";
 
 const ContadorDiarioKwh = () => {
   const [plantas, setPlantas] = useState([]);
-  const [registros, setRegistros] = useState(JSON.parse(localStorage.getItem("datosPlantas") || "[]"));
+  const [registros, setRegistros] = useState([]);
   const [plantaId, setPlantaId] = useState("");
   const [fecha, setFecha] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    fetchData();
+    // Load plantas from localStorage
+    const plantasLS = JSON.parse(localStorage.getItem("plantas") || "[]");
+    setPlantas(plantasLS);
+    // Filter registros
+    let registrosLS = JSON.parse(localStorage.getItem("contador_diario_kwh_registros") || "[]");
+    let filtrados = registrosLS;
+    if (plantaId) {
+      filtrados = filtrados.filter(r => r.planta === plantaId || r.plantaId === plantaId);
+    }
+    if (fecha) {
+      filtrados = filtrados.filter(r => r.fecha && r.fecha.startsWith(fecha));
+    }
+    // Paginación
+    const pageSize = 10;
+    const total = filtrados.length;
+    const pages = Math.max(1, Math.ceil(total / pageSize));
+    setTotalPages(pages);
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+    setRegistros(filtrados.slice(start, end));
   }, [plantaId, fecha, page]);
 
-  const fetchData = async () => {
-    const params = new URLSearchParams({
-      planta: plantaId,
-      fecha,
-      page,
-    });
-
-    const res = await fetch(`/api/contador-diario-kwh?${params}`);
-    const data = await res.json();
-
-    setPlantas(data.plantas);
-    setRegistros(data.registros);
-    setTotalPages(data.total_pages);
-  };
-
-  // Función para eliminar un registro por id o índice
+  // Eliminar registro
   const handleEliminar = (id, idx) => {
-    // Usar id si existe, si no, usar el índice
-    let nuevosRegistros = [...registros];
+    let registrosLS = JSON.parse(localStorage.getItem("contador_diario_kwh_registros") || "[]");
     if (id !== undefined && id !== null) {
-      nuevosRegistros = nuevosRegistros.filter(r => r.id !== id);
+      registrosLS = registrosLS.filter(r => r.id !== id);
     } else {
-      nuevosRegistros.splice(idx, 1);
+      registrosLS.splice(idx, 1);
     }
-    setRegistros(nuevosRegistros);
-    // Actualizar localStorage
-    localStorage.setItem("contador_diario_kwh_registros", JSON.stringify(nuevosRegistros));
+    localStorage.setItem("contador_diario_kwh_registros", JSON.stringify(registrosLS));
+    setPage(1);
+    setPlantaId("");
+    setFecha("");
   };
 
   return (

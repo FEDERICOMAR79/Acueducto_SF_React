@@ -1,40 +1,40 @@
 import { useEffect, useState } from "react";
-import "../styles/monthSelect.css";
-import "../styles/monthpicker-contador.css";
+import "../styles/monthSelect.scss";
+import "../styles/monthpicker-contador.scss";
+
+const bombasEjemplo = [
+  { bomba_id: 1, nombre: "Bomba Norte" },
+  { bomba_id: 2, nombre: "Bomba Sur" },
+];
 
 const ConsumoDiarioBombeo = () => {
-  const [bombas, setBombas] = useState([]);
-  const [registros, setRegistros] = useState([]);
+  const [registros, setRegistros] = useState(JSON.parse(localStorage.getItem("datosContadores") || "[]"));
   const [bombaId, setBombaId] = useState("");
   const [fecha, setFecha] = useState("");
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    fetchData();
-  }, [bombaId, fecha, page]);
+  // Filtrar registros por bomba y fecha
+  const registrosFiltrados = registros.filter((reg) =>
+    (bombaId === "" || reg.bomba_id == bombaId) &&
+    (fecha === "" || reg.fecha.startsWith(fecha))
+  );
 
-  const fetchData = async () => {
-    const params = new URLSearchParams({
-      bomba: bombaId,
-      fecha,
-      page,
-    });
-
-    const res = await fetch(`/api/consumo-diario-bombeo?${params}`);
-    const data = await res.json();
-
-    setBombas(data.bombas);
-    setRegistros(data.registros);
-    setTotalPages(data.total_pages);
+  // Eliminar registro
+  const handleEliminar = (id, idx) => {
+    let nuevosRegistros = [...registros];
+    if (id !== undefined && id !== null) {
+      nuevosRegistros = nuevosRegistros.filter((r) => r.id !== id);
+    } else {
+      nuevosRegistros.splice(idx, 1);
+    }
+    setRegistros(nuevosRegistros);
+    localStorage.setItem("datosContadores", JSON.stringify(nuevosRegistros));
   };
 
   return (
     <>
-      {/* Header */}
       <div className="graficas-header">
         <header>
-          <h1>Reporte Diario de Bombeo</h1>
+          <h1>Consumo de Bombeo Contador</h1>
         </header>
       </div>
 
@@ -42,11 +42,7 @@ const ConsumoDiarioBombeo = () => {
       <section className="filtros-section">
         <form
           className="filtros-form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            setPage(1);
-            fetchData();
-          }}
+          onSubmit={(e) => e.preventDefault()}
         >
           <div className="filtro-grupo">
             <label>Bomba:</label>
@@ -55,8 +51,8 @@ const ConsumoDiarioBombeo = () => {
               onChange={(e) => setBombaId(e.target.value)}
             >
               <option value="">-- Todas las bombas --</option>
-              {bombas.map((b) => (
-                <option key={b.id} value={b.id}>
+              {bombasEjemplo.map((b) => (
+                <option key={b.bomba_id} value={b.bomba_id}>
                   {b.nombre}
                 </option>
               ))}
@@ -69,18 +65,18 @@ const ConsumoDiarioBombeo = () => {
               type="month"
               value={fecha}
               onChange={(e) => setFecha(e.target.value)}
+              className="monthpicker-custom"
             />
           </div>
 
           <div className="filtro-grupo">
-            <button className="btn-filtrar">Filtrar</button>
+            <button className="btn-filtrar" type="button">Filtrar</button>
             <button
               type="button"
               className="btn-limpiar"
               onClick={() => {
                 setBombaId("");
                 setFecha("");
-                setPage(1);
               }}
             >
               Limpiar Filtros
@@ -89,20 +85,10 @@ const ConsumoDiarioBombeo = () => {
         </form>
       </section>
 
-      {/* Exportar */}
-      <div className="filtro-grupo">
-        <a
-          className="btn-filtrar"
-          href={`/api/export-consumo-diario-bombeo?fecha=${fecha}`}
-        >
-          Descargar XLSX
-        </a>
-      </div>
-
       {/* Tabla */}
       <section className="dashboard-latest">
         <div className="tabla-container">
-          <table className="data-table">
+          <table className="consumo-table">
             <thead>
               <tr>
                 <th>Fecha</th>
@@ -112,27 +98,27 @@ const ConsumoDiarioBombeo = () => {
               </tr>
             </thead>
             <tbody>
-              {registros.length === 0 ? (
+              {registrosFiltrados.length === 0 ? (
                 <tr>
                   <td colSpan="4" className="tabla-vacia">
                     No hay registros para este día
                   </td>
                 </tr>
               ) : (
-                registros.map((r) => (
-                  <tr key={r.id}>
+                registrosFiltrados.map((r, idx) => (
+                  <tr key={r.id || idx}>
                     <td>{r.fecha}</td>
                     <td>{r.bomba}</td>
-                    <td>{r.metros_cubicos}</td>
+                    <td>{r.valor}</td>
                     <td className="acciones">
                       <button className="btn-editar">Editar</button>
                       <button
                         className="btn-eliminar"
-                        onClick={() =>
-                          window.confirm(
-                            "¿Estás seguro de que deseas eliminar este registro?"
-                          )
-                        }
+                        onClick={() => {
+                          if (window.confirm("¿Eliminar registro?")) {
+                            handleEliminar(r.id, idx);
+                          }
+                        }}
                       >
                         Eliminar
                       </button>
@@ -142,32 +128,6 @@ const ConsumoDiarioBombeo = () => {
               )}
             </tbody>
           </table>
-        </div>
-
-        {/* Paginación */}
-        <div className="pagination">
-          <span className="page-info">
-            Página {page} de {totalPages}
-          </span>
-          <nav>
-            {page > 1 && (
-              <button
-                className="btn-paginacion"
-                onClick={() => setPage(page - 1)}
-              >
-                ‹ Anterior
-              </button>
-            )}
-
-            {page < totalPages && (
-              <button
-                className="btn-paginacion"
-                onClick={() => setPage(page + 1)}
-              >
-                Siguiente ›
-              </button>
-            )}
-          </nav>
         </div>
       </section>
     </>

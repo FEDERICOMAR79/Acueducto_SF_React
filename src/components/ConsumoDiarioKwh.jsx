@@ -1,32 +1,51 @@
 import { useEffect, useState } from "react";
-import "../styles/monthSelect.css";
-import "../styles/monthpicker-contador.css";
+import "../styles/monthSelect.scss";
+import "../styles/monthpicker-contador.scss";
 
 const ConsumoDiarioKwh = () => {
   const [plantas, setPlantas] = useState([]);
-  const [registros, setRegistros] = useState([]);
+  const [registros, setRegistros] = useState(JSON.parse(localStorage.getItem("contador_diario_kwh_registros") || "[]"));
   const [plantaId, setPlantaId] = useState("");
   const [fecha, setFecha] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    fetchData();
+    // Load plantas from localStorage
+    const plantasLS = JSON.parse(localStorage.getItem("plantas") || "[]");
+    setPlantas(plantasLS);
+    // Filter registros
+    let registrosLS = JSON.parse(localStorage.getItem("contador_diario_kwh_registros") || "[]");
+    let filtrados = registrosLS;
+    if (plantaId) {
+      filtrados = filtrados.filter(r => r.planta === plantaId || r.plantaId === plantaId);
+    }
+    if (fecha) {
+      filtrados = filtrados.filter(r => r.fecha && r.fecha.startsWith(fecha));
+    }
+    // Paginación
+    const pageSize = 10;
+    const total = filtrados.length;
+    const pages = Math.max(1, Math.ceil(total / pageSize));
+    setTotalPages(pages);
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+    setRegistros(filtrados.slice(start, end));
   }, [plantaId, fecha, page]);
 
-  const fetchData = async () => {
-    const params = new URLSearchParams({
-      planta: plantaId,
-      fecha,
-      page,
-    });
-
-    const res = await fetch(`/api/consumo-diario-kwh?${params}`);
-    const data = await res.json();
-
-    setPlantas(data.plantas);
-    setRegistros(data.registros);
-    setTotalPages(data.total_pages);
+  // Eliminar registro
+  const handleEliminar = (id, idx) => {
+    let registrosLS = JSON.parse(localStorage.getItem("contador_diario_kwh_registros") || "[]");
+    if (id !== undefined && id !== null) {
+      registrosLS = registrosLS.filter(r => r.id !== id);
+    } else {
+      registrosLS.splice(idx, 1);
+    }
+    localStorage.setItem("contador_diario_kwh_registros", JSON.stringify(registrosLS));
+    // Actualizar vista
+    setPage(1);
+    setPlantaId("");
+    setFecha("");
   };
 
   return (
@@ -45,7 +64,6 @@ const ConsumoDiarioKwh = () => {
           onSubmit={(e) => {
             e.preventDefault();
             setPage(1);
-            fetchData();
           }}
         >
           <div className="filtro-grupo">
@@ -89,20 +107,10 @@ const ConsumoDiarioKwh = () => {
         </form>
       </section>
 
-      {/* Exportar */}
-      <div className="filtro-grupo">
-        <a
-          className="btn-filtrar"
-          href={`/api/export-consumo-diario-kwh?fecha=${fecha}`}
-        >
-          Descargar XLSX
-        </a>
-      </div>
-
       {/* Tabla */}
       <section className="dashboard-latest">
         <div className="tabla-container">
-          <table className="data-table">
+          <table className="consumo-table">
             <thead>
               <tr>
                 <th>Fecha</th>
@@ -119,20 +127,20 @@ const ConsumoDiarioKwh = () => {
                   </td>
                 </tr>
               ) : (
-                registros.map((r) => (
-                  <tr key={r.id}>
+                registros.map((r, idx) => (
+                  <tr key={r.id || idx}>
                     <td>{r.fecha}</td>
                     <td>{r.planta}</td>
-                    <td>{r.consumo_energia}</td>
+                    <td>{r.valor || r.consumo_energia}</td>
                     <td className="acciones">
                       <button className="btn-editar">Editar</button>
                       <button
                         className="btn-eliminar"
-                        onClick={() =>
-                          window.confirm(
-                            "¿Estás seguro de que deseas eliminar este registro?"
-                          )
-                        }
+                        onClick={() => {
+                          if (window.confirm("¿Eliminar registro?")) {
+                            handleEliminar(r.id, idx);
+                          }
+                        }}
                       >
                         Eliminar
                       </button>

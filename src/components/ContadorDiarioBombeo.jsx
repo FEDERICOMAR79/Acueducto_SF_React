@@ -5,30 +5,37 @@ import "../styles/dashboard.scss";
 
 const ContadorDiarioBombeo = () => {
   const [bombas, setBombas] = useState([]);
-  const [registros, setRegistros] = useState(JSON.parse(localStorage.getItem("datosContadores") || "[]"));
+  const [registros, setRegistros] = useState([]);
   const [bombaId, setBombaId] = useState("");
   const [fecha, setFecha] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    fetchData();
+    // Load bombas from localStorage
+    const bombasLS = JSON.parse(localStorage.getItem("bombas") || "[]");
+    setBombas(bombasLS);
+    // Filter registros
+    let registrosLS = JSON.parse(localStorage.getItem("datosContadores") || "[]");
+    let filtrados = registrosLS;
+    if (bombaId) {
+      filtrados = filtrados.filter(r => r.bomba === bombaId || r.bombaId === bombaId);
+    }
+    if (fecha) {
+      filtrados = filtrados.filter(r => r.fecha && r.fecha.startsWith(fecha));
+    }
+    // Paginación
+    const pageSize = 10;
+    const total = filtrados.length;
+    const pages = Math.max(1, Math.ceil(total / pageSize));
+    setTotalPages(pages);
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+    setRegistros(filtrados.slice(start, end));
   }, [bombaId, fecha, page]);
 
-  const fetchData = async () => {
-    const params = new URLSearchParams({
-      bomba: bombaId,
-      fecha,
-      page,
-    });
-
-    const res = await fetch(`/api/contador-diario-bombeo?${params}`);
-    const data = await res.json();
-
-    setBombas(data.bombas);
-    setRegistros(data.registros);
-    setTotalPages(data.total_pages);
-  };
+  // Eliminar registro
+  // ...existing code...
 
   // Función para eliminar un registro por id o índice
   const handleEliminar = (id, idx) => {
@@ -57,7 +64,6 @@ const ContadorDiarioBombeo = () => {
           onSubmit={(e) => {
             e.preventDefault();
             setPage(1);
-            fetchData();
           }}
         >
           <div className="filtro-grupo">
