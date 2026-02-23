@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import "../styles/monthSelect.css";
-import "../styles/monthpicker-contador.css";
+import "../styles/monthSelect.scss";
+import "../styles/monthpicker-contador.scss";
 
 const ContadorDiarioKwh = () => {
   const [plantas, setPlantas] = useState([]);
-  const [registros, setRegistros] = useState([]);
+  const registros = JSON.parse(localStorage.getItem("contador_diario_kwh_registros") || "[]");
   const [plantaId, setPlantaId] = useState("");
   const [fecha, setFecha] = useState("");
   const [page, setPage] = useState(1);

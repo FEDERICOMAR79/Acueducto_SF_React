@@ -32,7 +32,7 @@ const Stats = () => {
                         <div className="menu-summary-card">
                             <h3>Bombeo</h3>
                             <div className="menu-stats">
-                                <Link to="/contador-diario-bombeo" className="btn">Consumo de Bombeo Contador</Link>
+                                <Link to="/ContadorDiarioBombeo" className="btn">Consumo de Bombeo Contador</Link>
                                 <Link to="/consumo-mensual-bombeo" className="btn">Consumo Mensual de Bombeo</Link>
                                 <Link to="/consumo-diario-bombeo" className="btn">Consumo de Bombeo</Link>
                                 <Link to="/total-bombeo" className="btn">Reporte de Bombeo Total</Link>

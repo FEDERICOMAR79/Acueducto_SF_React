@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import "../styles/monthSelect.css";
-import "../styles/monthpicker-contador.css";
+import "../styles/monthSelect.scss";
+import "../styles/monthpicker-contador.scss";
+import "../styles/dashboard.scss";
 
 const ContadorDiarioBombeo = () => {
   const [bombas, setBombas] = useState([]);
-  const [registros, setRegistros] = useState([]);
+  const registros = JSON.parse(localStorage.getItem("datosContadores") || "[]");
   const [bombaId, setBombaId] = useState("");
   const [fecha, setFecha] = useState("");
   const [page, setPage] = useState(1);
@@ -65,6 +66,7 @@ const ContadorDiarioBombeo = () => {
               type="month"
               value={fecha}
               onChange={(e) => setFecha(e.target.value)}
+              className="monthpicker-custom"
             />
           </div>
 
@@ -88,7 +90,7 @@ const ContadorDiarioBombeo = () => {
       {/* Tabla */}
       <section className="dashboard-latest">
         <div className="tabla-container">
-          <table className="data-table">
+          <table className="consumo-table">
             <thead>
               <tr>
                 <th>Fecha</th>
@@ -109,7 +111,7 @@ const ContadorDiarioBombeo = () => {
                   <tr key={r.id}>
                     <td>{r.fecha}</td>
                     <td>{r.bomba}</td>
-                    <td>{r.metros_cubicos}</td>
+                    <td>{r.valor}</td>
                     <td className="acciones">
                       <button className="btn-editar">Editar</button>
                       <button
