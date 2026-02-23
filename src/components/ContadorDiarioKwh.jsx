@@ -4,7 +4,7 @@ import "../styles/monthpicker-contador.scss";
 
 const ContadorDiarioKwh = () => {
   const [plantas, setPlantas] = useState([]);
-  const registros = JSON.parse(localStorage.getItem("contador_diario_kwh_registros") || "[]");
+  const registros = JSON.parse(localStorage.getItem("datosPlantas") || "[]");
   const [plantaId, setPlantaId] = useState("");
   const [fecha, setFecha] = useState("");
   const [page, setPage] = useState(1);
@@ -88,20 +88,10 @@ const ContadorDiarioKwh = () => {
         </form>
       </section>
 
-      {/* Botón exportar */}
-      <div className="filtro-grupo">
-        <a
-          className="btn-filtrar"
-          href={`/api/export-contador-diario-kwh?fecha=${fecha}`}
-        >
-          Descargar XLSX
-        </a>
-      </div>
-
       {/* Tabla */}
       <section className="dashboard-latest">
         <div className="tabla-container">
-          <table className="data-table">
+          <table className="consumo-table">
             <thead>
               <tr>
                 <th>Fecha</th>
@@ -118,20 +108,16 @@ const ContadorDiarioKwh = () => {
                   </td>
                 </tr>
               ) : (
-                registros.map((r) => (
-                  <tr key={r.id}>
+                registros.map((r, idx) => (
+                  <tr key={r.id || idx}>
                     <td>{r.fecha}</td>
                     <td>{r.planta}</td>
-                    <td>{r.consumo_energia}</td>
+                    <td>{r.valor || r.consumo_energia}</td>
                     <td className="acciones">
                       <button className="btn-editar">Editar</button>
                       <button
                         className="btn-eliminar"
-                        onClick={() =>
-                          window.confirm(
-                            "¿Estás seguro de que deseas eliminar este registro?"
-                          )
-                        }
+                        onClick={() => window.confirm("¿Eliminar registro?")}
                       >
                         Eliminar
                       </button>

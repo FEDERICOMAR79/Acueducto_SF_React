@@ -45,7 +45,7 @@ const Stats = () => {
                         <div className="menu-summary-card">
                             <h3>Energía</h3>
                             <div className="menu-stats">
-                                <Link to="/contador-diario-kwh" className="btn">Consumo de Energía Contador</Link>
+                                <Link to="/ContadorDiarioKwh" className="btn">Consumo de Energía Contador</Link>
                                 <Link to="/consumo-mensual-kwh" className="btn">Consumo Mensual de Energía</Link>
                                 <Link to="/consumo-diario-kwh" className="btn">Consumo de Energía</Link>
                                 <Link to="/total-energia" className="btn">Reporte de Energía Total</Link>
