@@ -9,6 +9,8 @@ import BaseLayout from './components/BaseLayout';
 import Signup from './components/signup';
 import ContadorDiarioBombeo from './components/ContadorDiarioBombeo';
 import ContadorDiarioKwh from './components/ContadorDiarioKwh';
+import ConsumoDiarioBombeo from './components/ConsumoDiarioBombeo';
+import ConsumoDiarioKwh from './components/ConsumoDiarioKwh';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -72,6 +74,22 @@ function App() {
           element={
             isAuthenticated
               ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><ContadorDiarioKwh /></BaseLayout>
+              : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/ConsumoDiarioBombeo"
+          element={
+            isAuthenticated
+              ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><ConsumoDiarioBombeo /></BaseLayout>
+              : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/ConsumoDiarioKwh"
+          element={
+            isAuthenticated
+              ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><ConsumoDiarioKwh /></BaseLayout>
               : <Navigate to="/login" />
           }
         />
