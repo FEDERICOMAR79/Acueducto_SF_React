@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import "../styles/monthSelect.scss";
 import "../styles/monthpicker-contador.scss";
@@ -15,7 +16,7 @@ const ConsumoDiarioKwh = () => {
     const plantasLS = JSON.parse(localStorage.getItem("plantas") || "[]");
     setPlantas(plantasLS);
     // Filter registros
-    let registrosLS = JSON.parse(localStorage.getItem("contador_diario_kwh_registros") || "[]");
+    let registrosLS = JSON.parse(localStorage.getItem("datosPlantas") || "[]");
     let filtrados = registrosLS;
     if (plantaId) {
       filtrados = filtrados.filter(r => r.planta === plantaId || r.plantaId === plantaId);
@@ -32,6 +33,40 @@ const ConsumoDiarioKwh = () => {
     const end = start + pageSize;
     setRegistros(filtrados.slice(start, end));
   }, [plantaId, fecha, page]);
+
+  // Calcular diferencias por planta (idéntico a ConsumoDiarioBombeo pero para plantas)
+  const diferenciasPorPlanta = (() => {
+    // Agrupar registros por planta
+    const agrupados = {};
+    registros.forEach((r) => {
+      const plantaKey = r.plantaId || r.planta;
+      if (!agrupados[plantaKey]) agrupados[plantaKey] = [];
+      agrupados[plantaKey].push(r);
+    });
+    // Para cada planta, si hay al menos dos registros, tomar el último y el anterior, restar valores
+    const resultado = [];
+    Object.entries(agrupados).forEach(([plantaKey, regs]) => {
+      if (regs.length < 2) return;
+      // Ordenar por fecha ascendente
+      const ordenados = regs.slice().sort((a, b) => a.fecha.localeCompare(b.fecha));
+      const penultimo = ordenados[ordenados.length - 2];
+      const ultimo = ordenados[ordenados.length - 1];
+      // Buscar el campo numérico correcto
+      const getValor = (r) => {
+        if (typeof r.valor !== 'undefined') return Number(r.valor);
+        if (typeof r.consumo !== 'undefined') return Number(r.consumo);
+        if (typeof r.consumo_energia !== 'undefined') return Number(r.consumo_energia);
+        return 0;
+      };
+      resultado.push({
+        fecha: ultimo.fecha,
+        planta: ultimo.planta,
+        planta_id: ultimo.plantaId || ultimo.planta,
+        valor: getValor(ultimo) - getValor(penultimo),
+      });
+    });
+    return resultado;
+  })();
 
   // Eliminar registro
   const handleEliminar = (id, idx) => {
@@ -127,18 +162,18 @@ const ConsumoDiarioKwh = () => {
                   </td>
                 </tr>
               ) : (
-                registros.map((r, idx) => (
-                  <tr key={r.id || idx}>
-                    <td>{r.fecha}</td>
-                    <td>{r.planta}</td>
-                    <td>{r.valor || r.consumo_energia}</td>
+                diferenciasPorPlanta.map((d, idx) => (
+                  <tr key={d.planta + d.fecha + idx}>
+                    <td>{d.fecha}</td>
+                    <td>{d.planta}</td>
+                    <td>{d.valor}</td>
                     <td className="acciones">
                       <button className="btn-editar">Editar</button>
                       <button
                         className="btn-eliminar"
                         onClick={() => {
                           if (window.confirm("¿Eliminar registro?")) {
-                            handleEliminar(r.id, idx);
+                            handleEliminar(d.id, idx);
                           }
                         }}
                       >
