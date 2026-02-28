@@ -7,6 +7,7 @@ import notiIcon from '../assets/noti-normal.svg';
 import Bombas from '../components/Bombas';
 import Plantas from '../components/Plantas';
 import Stats from '../components/Stats';
+import M3Facturados from '../components/ConsM3Facturados';
 
 function BaseLayout({ children, user, messages, setIsAuthenticated }) {
   const navigate = useNavigate();
