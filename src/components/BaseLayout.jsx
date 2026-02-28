@@ -1,6 +1,7 @@
 // src/components/BaseLayout.jsx
 import React from 'react';
 import '../styles/global.scss';
+import '../styles/dashboard.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import notiIcon from '../assets/noti-normal.svg';
 import Bombas from '../components/Bombas';
@@ -27,7 +28,7 @@ function BaseLayout({ children, user, messages, setIsAuthenticated }) {
           </a>
           <span className="user-name"></span>
           <div className="user-avatar">👤</div>
-          <div className="logout">| <button onClick={handleLogout} className="logout-btn">Cerrar Sesión</button></div>
+          <div className="logout">| <a href="#" onClick={handleLogout} className="logout-link">Cerrar Sesión</a></div>
         </div>
       </header>
 
