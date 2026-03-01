@@ -1,3 +1,44 @@
+.stats-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.graficas-desktop {
+    margin-top: 16px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.graficas-desktop .btn,
+.graficas-responsive .btn {
+    min-width: 160px;
+    max-width: 260px;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+/* Botón gráficas: desktop y responsive */
+.graficas-desktop {
+    display: block;
+    margin-top: 18px;
+    margin-bottom: 0;
+}
+.graficas-responsive {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .graficas-desktop {
+        display: none;
+    }
+    .graficas-responsive {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 32px 0 32px 0;
+        width: 100%;
+    }
+}
 /* Contenedor principal */
 .menu-consumos {
     min-height: calc(80vh - 220px);
