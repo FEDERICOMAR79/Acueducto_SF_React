@@ -11,7 +11,6 @@ import ContadorDiarioBombeo from './components/ContadorDiarioBombeo';
 import ContadorDiarioKwh from './components/ContadorDiarioKwh';
 import ConsumoDiarioBombeo from './components/ConsumoDiarioBombeo';
 import ConsumoDiarioKwh from './components/ConsumoDiarioKwh';
-import M3Facturados from './components/ConsM3Facturados';
 import UsuariosTotales from './components/UsuariosTotales';
 import ConsumoUsuarios from './components/ConsumoUsuarios';
 import M3Facturados from './components/M3Facturados';
