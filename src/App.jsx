@@ -11,6 +11,9 @@ import ContadorDiarioBombeo from './components/ContadorDiarioBombeo';
 import ContadorDiarioKwh from './components/ContadorDiarioKwh';
 import ConsumoDiarioBombeo from './components/ConsumoDiarioBombeo';
 import ConsumoDiarioKwh from './components/ConsumoDiarioKwh';
+import M3Facturados from './components/M3Facturados';
+import M3Perdidos from './components/M3Perdidos';
+import EficienciaBombeo from './components/EficienciaBombeo';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -90,6 +93,30 @@ function App() {
           element={
             isAuthenticated
               ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><ConsumoDiarioKwh /></BaseLayout>
+              : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/metros-cubicos-facturados"
+          element={
+            isAuthenticated
+              ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><M3Facturados /></BaseLayout>
+              : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/metros-cubicos-perdidos"
+          element={
+            isAuthenticated
+              ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><M3Perdidos /></BaseLayout>
+              : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/eficiencia-bombeo"
+          element={
+            isAuthenticated
+              ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><EficienciaBombeo /></BaseLayout>
               : <Navigate to="/login" />
           }
         />
