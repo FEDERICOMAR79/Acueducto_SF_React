@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import "../../styles/monthSelect.css";
-import "../../styles/monthpicker-contador.css";
+import "../styles/monthSelect.scss";
+import "../styles/monthpicker-contador.scss";
 import {
   getM3Facturados,
   exportM3Facturados,
-} from "../../services/m3Facturados";
+} from "../services/m3Facturados";
 
 const M3Facturados = () => {
   const [bombas, setBombas] = useState([]);

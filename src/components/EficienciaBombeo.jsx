@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import "../../styles/monthSelect.css";
-import "../../styles/monthpicker-contador.css";
+import "../styles/monthSelect.scss";
+import "../styles/monthpicker-contador.scss";
 import {
   getEficienciaBombeo,
   exportEficienciaBombeo,
-} from "../../services/eficienciaBombeo";
+} from "../services/eficienciaBombeo";
 
 const EficienciaBombeo = () => {
   const [fecha, setFecha] = useState("");

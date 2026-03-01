@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import "../../styles/monthSelect.css";
-import "../../styles/monthpicker-contador.css";
+import "../styles/monthSelect.scss";
+import "../styles/monthpicker-contador.scss";
 import {
   getM3Perdidos,
   exportM3Perdidos,
-} from "../../services/m3Perdidos";
+} from "../services/m3Perdidos";
 
 const M3Perdidos = () => {
   const [registros, setRegistros] = useState([]);
