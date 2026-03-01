@@ -67,6 +67,30 @@ function App() {
           }
         />
         <Route
+          path="/metros-cubicos-facturados"
+          element={
+            isAuthenticated
+              ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><M3Facturados /></BaseLayout>
+              : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/metros-cubicos-perdidos"
+          element={
+            isAuthenticated
+              ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><M3Perdidos /></BaseLayout>
+              : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/eficiencia-bombeo"
+          element={
+            isAuthenticated
+              ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><EficienciaBombeo /></BaseLayout>
+              : <Navigate to="/login" />
+          }
+        />
+        <Route
           path="/ContadorDiarioBombeo"
           element={
             isAuthenticated
