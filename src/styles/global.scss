@@ -1,5 +1,75 @@
 @use './dashboard.scss' as *;
 
+.user-avatar-menu {
+    position: relative;
+    cursor: pointer;
+    outline: none;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 38px;
+    right: 0;
+    min-width: 140px;
+    background: #f5f5f5;
+    border: 1px solid #bdbdbd;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0;
+    animation: fadeInMenu 0.18s;
+}
+
+.user-dropdown-link {
+    color: #03433e;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 10px 18px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.15s;
+    text-decoration: none;
+    outline: none;
+    width: 100%;
+    display: block;
+}
+.user-dropdown-link:hover, .user-dropdown-link:focus {
+    background: #e0e0e0;
+}
+
+/* Elimina estilos especiales de .logout-btn dentro del menú de usuario */
+.user-dropdown .logout-btn {
+    color: #03433e;
+    background: none;
+    border: none;
+    font-weight: 500;
+    font-size: 1rem;
+    border-radius: 6px;
+    box-shadow: none;
+    padding: 10px 18px;
+    margin: 0;
+    letter-spacing: 0;
+    transition: background 0.15s;
+    width: 100%;
+    text-align: left;
+}
+.user-dropdown .logout-btn:hover, .user-dropdown .logout-btn:focus {
+    background: #e0e0e0;
+}
+
+@media (max-width: 768px) {
+    .user-dropdown {
+        right: 0;
+        left: auto;
+        min-width: 120px;
+    }
+}
+
 /* ================= TOP BAR ================= */
 .topbar {
     background-color: #03433e;
@@ -106,42 +176,122 @@
 }
 
 @media (max-width: 768px) {
-    .main-menu {
+    .menu-hamburger {
         display: flex;
-        flex-direction: row;
-        overflow-x: auto;
-        white-space: nowrap;
-        scrollbar-width: thin;
-        scrollbar-color: #03433e #a4a4a4;
-        background: #a4a4a4;
-        padding: 0 0 8px 0;
-        margin: 0;
-        border-radius: 0 0 12px 12px;
-    }
-    .main-menu::-webkit-scrollbar {
-        height: 6px;
-    }
-    .main-menu::-webkit-scrollbar-thumb {
-        background: #03433e;
-        border-radius: 3px;
-    }
-    .main-menu a {
-        display: inline-flex;
-        min-width: 120px;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: 10px 18px;
-        font-size: 16px;
-        margin: 0 4px;
-        white-space: nowrap;
+        width: 44px;
+        height: 44px;
+        background: #03433e;
+        border: none;
+        border-radius: 8px;
+        margin: 10px 16px 0 10px;
+        cursor: pointer;
+        z-index: 1001;
+        position: relative;
+    }
+    .menu-hamburger .bar {
+        width: 28px;
+        height: 4px;
+        background: #fff;
+        margin: 3px 0;
+        border-radius: 2px;
+        transition: all 0.3s;
+    }
+    .main-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100vw;
+        background: #a4a4a4;
+        border-radius: 0 0 12px 12px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        z-index: 1000;
+        padding-bottom: 12px;
+        animation: fadeInMenu 0.2s;
+    }
+    .main-menu.open {
+        display: flex;
+    }
+    .main-menu a {
+        padding: 16px 0;
+        font-size: 18px;
+        text-align: center;
+        width: 100%;
+        border-bottom: 1px solid #cfcfcf;
+        margin: 0;
     }
 }
 
-.logout a {
-    color: #eff5f5;
-    font-weight: 400;
-    text-decoration: none;
-    padding: 5px 10px;
+@media (min-width: 769px) {
+    .menu-hamburger {
+        display: none;
+    }
+    .main-menu {
+        display: flex !important;
+        flex-direction: row;
+        position: static;
+        width: auto;
+        background: #a4a4a4;
+        border-radius: 0;
+        box-shadow: none;
+        padding-bottom: 0;
+    }
+    .main-menu a {
+        border-bottom: none;
+        padding: 10px 22px;
+        font-size: 18px;
+        width: auto;
+    }
+}
+
+@keyframes fadeInMenu {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+.logout {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.logout-btn {
+    color: #03433e;
+    background: #e0e0e0;
+    border: 1.5px solid #bdbdbd;
+    font-weight: 700;
+    font-size: 0.92rem;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 7px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    transition: background 0.18s, border 0.18s, color 0.18s;
+    outline: none;
+    letter-spacing: 0.5px;
+    margin-left: 2px;
+}
+.logout-btn:hover, .logout-btn:focus {
+    background: #bdbdbd;
+    border-color: #a4a4a4;
+    color: #03433e;
+}
+
+@media (max-width: 768px) {
+    .topbar-right {
+        flex-wrap: nowrap;
+    }
+    .logout {
+        margin-left: 8px;
+    }
+    .logout-btn {
+        font-size: 0.98rem;
+        padding: 5px 8px;
+    }
 }
 
 /* ================= NOTIFICACIONES ================= */
