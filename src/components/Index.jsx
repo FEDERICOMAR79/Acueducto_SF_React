@@ -1,12 +1,13 @@
 import '../styles/Index.scss';
+import { Link } from 'react-router-dom'
 
 function Index() {
     // Ejemplo de datos, reemplaza por datos reales o props
     const user = { username: 'Juan' };
     const mes = 'Febrero';
     const dia = '21';
-    const total_energia = 1234;
-    const total_bombeo = 567;
+    const total_energia = localStorage.getItem('datosPlantas') ? JSON.parse(localStorage.getItem('datosPlantas')).reduce((total, registro) => total + parseFloat(registro.valor), 0) : 0;
+    const total_bombeo = localStorage.getItem('datosContadores') ? JSON.parse(localStorage.getItem('datosContadores')).reduce((total, registro) => total + parseFloat(registro.valor), 0) : 0;
     const total_rebombeo = 89;
     const variacion_ayer_vs_hoy = 5.2;
     const total_m3_facturados = 321;
@@ -62,10 +63,10 @@ function Index() {
                 <section className="dashboard-actions">
                     <h2>Acciones rápidas</h2>
                     <div className="actions-grid">
-                        <a href="/consumo_energia" className="action-btn">Registrar Energía</a>
-                        <a href="/consumo_bombeo" className="action-btn">Registrar Bombeo</a>
-                        <a href="/registro_usuarios" className="action-btn">Registrar Usuarios</a>
-                        <a href="/graficas" className="action-btn">Graficas</a>
+                        <Link to="/plantas" className="action-btn">Registrar Energía</Link>
+                        <Link to="/bombas" className="action-btn">Registrar Bombeo</Link>
+                        <Link to="/metros-cubicos-facturados" className="action-btn">Registrar M³ Facturados</Link>
+                        <Link to="/registro_usuarios" className="action-btn">Registrar Usuarios</Link>
                     </div>
                 </section>
 

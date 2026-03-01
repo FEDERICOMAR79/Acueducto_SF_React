@@ -24,9 +24,6 @@ const Stats = () => {
                                 <Link to="/metros-cubicos-facturados" className="btn">M³ Facturados</Link>
                                 <Link to="/metros-cubicos-perdidos" className="btn">M³ Perdidos</Link>
                                 <Link to="/eficiencia-bombeo" className="btn">Eficiencia de Bombeo</Link>
-                                <Link to="/metros-cubicos-perdidos-porcentaje" className="btn">M³ Perdidos (%)</Link>
-                                <Link to="/kwh-por-metro-cubico" className="btn">Kwh/m³ Diario</Link>
-                                <Link to="/kwh-por-metro-cubico-mensual" className="btn">Kwh/m³ Mensual</Link>
                             </div>
                         </div>
                     </div>
@@ -38,8 +35,6 @@ const Stats = () => {
                                 <Link to="/ContadorDiarioBombeo" className="btn">Consumo de Bombeo Contador</Link>
                                 <Link to="/consumo-mensual-bombeo" className="btn">Consumo Mensual de Bombeo</Link>
                                 <Link to="/ConsumoDiarioBombeo" className="btn">Consumo de Bombeo</Link>
-                                <Link to="/total-bombeo" className="btn">Reporte de Bombeo Total</Link>
-                                <Link to="/total-bombeo-mensual" className="btn">Reporte de Bombeo Total Mensual</Link>
                             </div>
                         </div>
                     </div>
@@ -51,8 +46,6 @@ const Stats = () => {
                                 <Link to="/ContadorDiarioKwh" className="btn">Consumo de Energía Contador</Link>
                                 <Link to="/consumo-mensual-kwh" className="btn">Consumo Mensual de Energía</Link>
                                 <Link to="/ConsumoDiarioKwh" className="btn">Consumo de Energía</Link>
-                                <Link to="/total-energia" className="btn">Reporte de Energía Total</Link>
-                                <Link to="/total-energia-mensual" className="btn">Reporte de Energía Total Mensual</Link>
                             </div>
                         </div>
                     </div>

@@ -1,12 +1,14 @@
 // src/components/BaseLayout.jsx
 import React from 'react';
 import '../styles/global.scss';
+import '../styles/dashboard.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import notiIcon from '../assets/noti-normal.svg';
 import Bombas from '../components/Bombas';
 import Plantas from '../components/Plantas';
 import Stats from '../components/Stats';
+import M3Facturados from '../components/ConsM3Facturados';
 
 function BaseLayout({ children, user, messages, setIsAuthenticated }) {
   const navigate = useNavigate();
@@ -63,6 +65,8 @@ function BaseLayout({ children, user, messages, setIsAuthenticated }) {
             <img src={notiIcon} alt="Notificaciones" />
           </a>
           <span className="user-name"></span>
+          <div className="user-avatar">👤</div>
+          <div className="logout">| <a href="#" onClick={handleLogout} className="logout-link">Cerrar Sesión</a></div>
           <div className="user-avatar user-avatar-menu" onClick={handleUserMenuToggle} tabIndex={0} ref={userMenuRef} aria-label="Menú usuario" role="button">
             👤
             {userMenuOpen && (

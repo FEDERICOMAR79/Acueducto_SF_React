@@ -12,6 +12,39 @@ const ConsumoDiarioBombeo = () => {
   const [bombaId, setBombaId] = useState("");
   const [fecha, setFecha] = useState("");
 
+  // Calcular diferencias por bomba
+  const diferenciasPorBomba = (() => {
+    // Agrupar registros por bomba
+    const agrupados = {};
+    registros.forEach((r) => {
+      if (!agrupados[r.bomba_id]) agrupados[r.bomba_id] = [];
+      agrupados[r.bomba_id].push(r);
+    });
+    // Para cada bomba, si hay al menos dos registros, tomar el último y el anterior, restar valores
+    const resultado = [];
+    Object.entries(agrupados).forEach(([bomba_id, regs]) => {
+      if (regs.length < 2) return;
+      // Ordenar por fecha ascendente
+      const ordenados = regs.slice().sort((a, b) => a.fecha.localeCompare(b.fecha));
+      const penultimo = ordenados[ordenados.length - 2];
+      const ultimo = ordenados[ordenados.length - 1];
+      // Buscar el campo numérico correcto
+      const getValor = (r) => {
+        if (typeof r.valor !== 'undefined') return Number(r.valor);
+        if (typeof r.consumo !== 'undefined') return Number(r.consumo);
+        if (typeof r.consumo_energia !== 'undefined') return Number(r.consumo_energia);
+        return 0;
+      };
+      resultado.push({
+        fecha: ultimo.fecha,
+        bomba: ultimo.bomba,
+        bomba_id: ultimo.bomba_id,
+        valor: getValor(ultimo) - getValor(penultimo),
+      });
+    });
+    return resultado;
+  })();
+
   // Filtrar registros por bomba y fecha
   const registrosFiltrados = registros.filter((reg) =>
     (bombaId === "" || reg.bomba_id == bombaId) &&
@@ -105,18 +138,17 @@ const ConsumoDiarioBombeo = () => {
                   </td>
                 </tr>
               ) : (
-                registrosFiltrados.map((r, idx) => (
-                  <tr key={r.id || idx}>
-                    <td>{r.fecha}</td>
-                    <td>{r.bomba}</td>
-                    <td>{r.valor}</td>
+                diferenciasPorBomba.map((d, idx) => (
+                  <tr key={d.bomba + d.fecha + idx}>
+                    <td>{d.fecha}</td>
+                    <td>{d.bomba}</td>
+                    <td>{d.valor}</td>
                     <td className="acciones">
-                      <button className="btn-editar">Editar</button>
                       <button
                         className="btn-eliminar"
                         onClick={() => {
                           if (window.confirm("¿Eliminar registro?")) {
-                            handleEliminar(r.id, idx);
+                            handleEliminar(d.id, idx);
                           }
                         }}
                       >
