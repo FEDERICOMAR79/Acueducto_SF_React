@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/consumo.scss';
 import Flatpickr from 'react-flatpickr';
+import { Spanish } from 'flatpickr/dist/l10n/es.js';
 import 'flatpickr/dist/flatpickr.css';
 import '../styles/datepicker-custom.scss';
 import { bombasEjemplo} from '../services/Bombas';
@@ -17,6 +18,12 @@ const Bombas = () => {
 const handleSubmit = (e) => {
 	e.preventDefault();
 	const submitter = e.nativeEvent.submitter;
+    if (submitter?.name === 'dia_anterior' || submitter?.name === 'dia_siguiente') {
+        const nuevaFecha = new Date(fechaActual);
+        nuevaFecha.setDate(nuevaFecha.getDate() + (submitter.name === 'dia_siguiente' ? 1 : -1));
+        setFechaActual(nuevaFecha);
+        return;
+    }
 	if (submitter && submitter.classList.contains('registrar-btn')) {
 		const fechaStr = fechaActual.toISOString().split('T')[0]; // formato YYYY-MM-DD
 		const datosContadores = JSON.parse(localStorage.getItem('datosContadores') || '[]');
@@ -51,7 +58,7 @@ const handleSubmit = (e) => {
                             className="flatpickr-input"
                             value={fechaActual}
                             options={{
-                                locale: 'es',
+                                locale: Spanish,
                                 dateFormat: 'Y-m-d',
                                 allowInput: false,
                             }}

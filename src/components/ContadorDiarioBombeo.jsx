@@ -3,6 +3,7 @@ import "../styles/monthSelect.scss";
 import "../styles/monthpicker-contador.scss";
 import "../styles/dashboard.scss";
 import "../styles/creaciones.scss";
+import { deleteContadorDiarioBombeoCascade } from "../services/contadorDiarioBombeo";
 
 const ContadorDiarioBombeo = () => {
   const [bombas, setBombas] = useState([]);
@@ -11,6 +12,7 @@ const ContadorDiarioBombeo = () => {
   const [fecha, setFecha] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [reloadTick, setReloadTick] = useState(0);
 
   useEffect(() => {
     // Load bombas from localStorage
@@ -33,21 +35,19 @@ const ContadorDiarioBombeo = () => {
     const start = (page - 1) * pageSize;
     const end = start + pageSize;
     setRegistros(filtrados.slice(start, end));
-  }, [bombaId, fecha, page]);
+  }, [bombaId, fecha, page, reloadTick]);
 
   // Eliminar registro
   // ...existing code...
 
-  // Función para eliminar un registro por id o índice
-  const handleEliminar = (id, idx) => {
-    let nuevosRegistros = [...registros];
-    if (id !== undefined && id !== null) {
-      nuevosRegistros = nuevosRegistros.filter(r => r.id !== id);
-    } else {
-      nuevosRegistros.splice(idx, 1);
-    }
-    setRegistros(nuevosRegistros);
-    localStorage.setItem("datosContadores", JSON.stringify(nuevosRegistros));
+  const handleEliminar = (registroAEliminar) => {
+    deleteContadorDiarioBombeoCascade(registroAEliminar);
+
+    // Refrescar vista
+    setPage(1);
+    setBombaId("");
+    setFecha("");
+    setReloadTick((prev) => prev + 1);
   };
 
   return (
@@ -137,7 +137,7 @@ const ContadorDiarioBombeo = () => {
                         className="btn-eliminar"
                         onClick={() => {
                           if (window.confirm("¿Eliminar registro?")) {
-                            handleEliminar(r.id, idx);
+                            handleEliminar(r);
                           }
                         }}
                       >
