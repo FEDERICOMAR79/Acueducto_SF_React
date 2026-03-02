@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/monthSelect.scss";
 import "../styles/monthpicker-contador.scss";
+import "../styles/creaciones.scss";
 
 const ContadorDiarioKwh = () => {
   const [plantas, setPlantas] = useState([]);
@@ -109,7 +110,7 @@ const ContadorDiarioKwh = () => {
       {/* Tabla */}
       <section className="dashboard-latest">
         <div className="tabla-container">
-          <table className="consumo-table">
+          <table className="data-table">
             <thead>
               <tr>
                 <th>Fecha</th>

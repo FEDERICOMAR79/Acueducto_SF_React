@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/monthSelect.scss";
 import "../styles/monthpicker-contador.scss";
+import "../styles/dashboard.scss";
 import {
   getM3Perdidos,
   exportM3Perdidos,
@@ -27,7 +28,7 @@ const M3Perdidos = () => {
       {/* Header */}
       <div className="graficas-header">
         <header>
-          <h1>Consumo Mensual Bombeo</h1>
+          <h1>Metros Cúbicos Perdidos</h1>
         </header>
       </div>
 
@@ -66,20 +67,10 @@ const M3Perdidos = () => {
         </form>
       </section>
 
-      {/* Exportar */}
-      <div className="filtro-grupo">
-        <button
-          className="btn-filtrar"
-          onClick={() => exportM3Perdidos(fecha)}
-        >
-          Descargar XLSX
-        </button>
-      </div>
-
       {/* Tabla */}
       <section className="dashboard-latest">
         <div className="tabla-container">
-          <table className="data-table">
+          <table className="consumo-table">
             <thead>
               <tr>
                 <th>Fecha</th>

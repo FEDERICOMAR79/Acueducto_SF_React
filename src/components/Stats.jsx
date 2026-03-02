@@ -8,13 +8,7 @@ const Stats = () => {
                 {/* Header */}
                 <header className="stats-header">
                     <h2>Estadísticas del Sistema</h2>
-                    <div className="graficas-desktop">
-                        <Link to="/graficas" className="btn">Gráficas</Link>
-                    </div>
                 </header>
-                <div className="graficas-responsive">
-                    <Link to="/graficas" className="btn">Gráficas</Link>
-                </div>
 
                 <section className="menu-registros-grid">
                     <div className="menu-item-card">

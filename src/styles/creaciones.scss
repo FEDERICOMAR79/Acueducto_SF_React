@@ -1,0 +1,247 @@
+/* Gestión de Base de Datos - Estilos */
+
+.gestion-container {
+    max-width: 90%;
+    margin: 40px auto;
+    padding: 20px;
+    background: #2b2b2b;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Tabs */
+.tabs-container {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid #393939;
+    margin-bottom: 30px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 15px 20px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: #bfbfbf;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+
+}
+
+.tab-btn:hover {
+    color: #eff5f5;
+    border-bottom-color: #068f84;
+    background: #4d4c4c;
+    font-weight: 600;
+}
+
+.tab-btn.active {
+    color: #eff5f5;
+    border-bottom-color: #068f84;
+    background: #4d4c4c;
+    font-weight: 600;
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section-title {
+    color: #99dada;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* Table */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    background: #333333;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.data-table thead {
+    background: #d3d3d3;
+}
+
+.data-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 630;
+    color: #03433e;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.data-table tbody tr {
+    border-bottom: 1px solid #e0e0e0;
+    transition: background 0.2s ease;
+}
+
+.data-table tbody tr:hover {
+    background: #5b5b5b;
+}
+
+.data-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.data-table td {
+    padding: 15px;
+    color: #eff5f5;
+}
+
+.data-table th:last-child,
+.data-table td:last-child {
+    width: 15%;
+    white-space: nowrap;
+    text-align: center;
+    border-left: 1px solid #e0e0e0;
+}
+
+.empty-state {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+}
+
+/* Buttons */
+.btn-delete {
+    background: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-delete:hover {
+    background: #c82333;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+}
+
+/* Add Section */
+.add-section {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.add-input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    background-color: #d3d3d3;
+}
+
+.add-input:focus {
+    outline: none;
+    border-color: #068f84;
+    box-shadow: 0 0 0 3px rgba(6, 143, 132, 0.1);
+}
+
+.gestion-container input[type="number"]::-webkit-outer-spin-button,
+.gestion-container input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.gestion-container input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.btn-add {
+    background: #03433e;
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-add:hover {
+    background: #03433e;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(6, 143, 132, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .gestion-container {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    .tabs-container {
+        flex-wrap: wrap;
+    }
+
+    .tab-btn {
+        flex: 1 1 33%;
+        min-width: 100px;
+    }
+
+    .data-table {
+        font-size: 0.9em;
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 10px;
+    }
+
+    .add-section {
+        flex-direction: column;
+    }
+
+    .add-input,
+    .btn-add {
+        width: 100%;
+    }
+}

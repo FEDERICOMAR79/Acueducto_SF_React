@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/monthSelect.scss";
 import "../styles/monthpicker-contador.scss";
+import "../styles/dashboard.scss";
 import {
   getEficienciaBombeo,
   exportEficienciaBombeo,
@@ -66,20 +67,10 @@ const EficienciaBombeo = () => {
         </form>
       </section>
 
-      {/* Exportar */}
-      <div className="filtro-grupo">
-        <button
-          className="btn-filtrar"
-          onClick={() => exportEficienciaBombeo(fecha)}
-        >
-          Descargar XLSX
-        </button>
-      </div>
-
       {/* Tabla */}
       <section className="dashboard-latest">
         <div className="tabla-container">
-          <table className="data-table">
+          <table className="consumo-table">
             <thead>
               <tr>
                 <th>Fecha</th>

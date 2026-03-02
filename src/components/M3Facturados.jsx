@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "../styles/monthSelect.scss";
 import "../styles/monthpicker-contador.scss";
+import "../styles/dashboard.scss";
+import "../styles/creaciones.scss";
 import {
   getM3Facturados,
   exportM3Facturados,
@@ -89,16 +91,6 @@ const M3Facturados = () => {
           </div>
         </form>
       </section>
-
-      {/* Exportar */}
-      <div className="filtro-grupo">
-        <button
-          className="btn-filtrar"
-          onClick={() => exportM3Facturados(fecha)}
-        >
-          Descargar XLSX
-        </button>
-      </div>
 
       {/* Tabla */}
       <section className="dashboard-latest">

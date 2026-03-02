@@ -127,7 +127,6 @@ const ConsumoDiarioBombeo = () => {
                 <th>Fecha</th>
                 <th>Bomba</th>
                 <th>Consumo (m³)</th>
-                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -143,18 +142,6 @@ const ConsumoDiarioBombeo = () => {
                     <td>{d.fecha}</td>
                     <td>{d.bomba}</td>
                     <td>{d.valor}</td>
-                    <td className="acciones">
-                      <button
-                        className="btn-eliminar"
-                        onClick={() => {
-                          if (window.confirm("¿Eliminar registro?")) {
-                            handleEliminar(d.id, idx);
-                          }
-                        }}
-                      >
-                        Eliminar
-                      </button>
-                    </td>
                   </tr>
                 ))
               )}

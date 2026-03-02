@@ -151,7 +151,6 @@ const ConsumoDiarioKwh = () => {
                 <th>Fecha</th>
                 <th>Planta</th>
                 <th>Consumo (kWh)</th>
-                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -167,19 +166,6 @@ const ConsumoDiarioKwh = () => {
                     <td>{d.fecha}</td>
                     <td>{d.planta}</td>
                     <td>{d.valor}</td>
-                    <td className="acciones">
-                      <button className="btn-editar">Editar</button>
-                      <button
-                        className="btn-eliminar"
-                        onClick={() => {
-                          if (window.confirm("¿Eliminar registro?")) {
-                            handleEliminar(d.id, idx);
-                          }
-                        }}
-                      >
-                        Eliminar
-                      </button>
-                    </td>
                   </tr>
                 ))
               )}
