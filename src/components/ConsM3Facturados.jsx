@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getCurrentUser } from '../utils/session';
 import Flatpickr from 'react-flatpickr';
 import { Spanish } from 'flatpickr/dist/l10n/es.js';
 import monthSelectPlugin from 'flatpickr/dist/plugins/monthSelect';
@@ -8,6 +9,8 @@ import '../styles/datepicker-custom.scss';
 import '../styles/monthSelect.scss';
 
 const ConsM3Facturados = () => {
+	// Obtener usuario logueado
+	const usuarioLog = getCurrentUser();
 	// Estado para la fecha y el input
 	const [fechaActual, setFechaActual] = useState(() => {
 		// Por defecto, mes actual en formato YYYY-MM
@@ -24,7 +27,7 @@ const ConsM3Facturados = () => {
 	// Maneja el submit del formulario principal
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
+		
 		const valor = Number(m3Facturados);
 		if (!m3Facturados || Number.isNaN(valor) || valor < 0) {
 			alert('Ingresa un valor válido de metros cúbicos.');
@@ -32,11 +35,18 @@ const ConsM3Facturados = () => {
 		}
 
 		const registrosM3 = JSON.parse(localStorage.getItem('M3Facturados') || '[]');
+		
+		// Generar ID autoincremental
+		const nuevoId = registrosM3.length > 0 
+			? Math.max(...registrosM3.map(r => r.id || 0)) + 1 
+			: 1;
+		
 		registrosM3.push({
+			id: nuevoId,
 			fecha: fechaActual, // YYYY-MM
 			metros_cubicos: valor,
 			m3fact: valor,
-			usuario: "mayito",
+			usuario: usuarioLog,
 		});
 
 		localStorage.setItem('M3Facturados', JSON.stringify(registrosM3));

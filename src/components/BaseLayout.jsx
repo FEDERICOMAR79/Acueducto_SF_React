@@ -9,6 +9,8 @@ import Bombas from '../components/Bombas';
 import Plantas from '../components/Plantas';
 import Stats from '../components/Stats';
 import M3Facturados from '../components/ConsM3Facturados';
+import { setCurrentUser } from '../utils/session';
+import { logout } from '../utils/session';
 
 function BaseLayout({ children, user, messages, setIsAuthenticated }) {
   const navigate = useNavigate();
@@ -70,7 +72,7 @@ function BaseLayout({ children, user, messages, setIsAuthenticated }) {
             {userMenuOpen && (
               <div className="user-dropdown">
                 <Link to="/perfil" className="user-dropdown-link" onClick={handleUserMenuClose}>Mi perfil</Link>
-                <button className="user-dropdown-link logout-btn" onClick={() => { handleLogout(); handleUserMenuClose(); }}>Cerrar Sesión</button>
+                <button className="user-dropdown-link logout-btn" onClick={() => { handleLogout(); handleUserMenuClose(); logout(); }}>Cerrar Sesión</button>
               </div>
             )}
           </div>

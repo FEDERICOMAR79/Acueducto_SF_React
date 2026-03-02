@@ -1,31 +1,42 @@
 import '../styles/Index.scss';
 import { Link } from 'react-router-dom'
+import { getCurrentUser, mesesEspanol } from '../utils/session';
 
 function Index() {
     // Ejemplo de datos, reemplaza por datos reales o props
-    const user = { username: 'Juan' };
-    const mes = 'Febrero';
-    const dia = '21';
+    const usuarioLog = getCurrentUser();
+    
+    // Obtener fecha actual
+    const fechaActual = new Date();
+    const mes = mesesEspanol[fechaActual.getMonth()];
+    const dia = fechaActual.getDate().toString();
     const total_energia = localStorage.getItem('datosPlantas') ? JSON.parse(localStorage.getItem('datosPlantas')).reduce((total, registro) => total + parseFloat(registro.valor), 0) : 0;
     const total_bombeo = localStorage.getItem('datosContadores') ? JSON.parse(localStorage.getItem('datosContadores')).reduce((total, registro) => total + parseFloat(registro.valor), 0) : 0;
     const total_rebombeo = 89;
     const variacion_ayer_vs_hoy = 5.2;
-    const total_m3_facturados = 321;
+    const total_m3_facturados = localStorage.getItem('M3Facturados') ? JSON.parse(localStorage.getItem('M3Facturados')).reduce((total, registro) => total + parseFloat(registro.metros_cubicos), 0) : 0;
     const total_usuarios = 42;
 
-    const ultimos_registros_bombeo = [
-        { fecha: '2026-02-20', bomba: { tipo: { nombre: 'Bombeo' }, nombre: 'Bomba1' }, metros_cubicos: 10, usuario: 'Juan' },
-        // ...más registros
-    ];
-    const ultimos_registros_energia = [
-        { fecha: '2026-02-20', planta: { tipo: { nombre: 'Principal' }, nombre: 'PlantaA' }, consumo_energia: 50, usuario: 'Ana' },
-        // ...más registros
-    ];
+    // Cargar últimos 5 registros de bombeo desde localStorage
+    const ultimos_registros_bombeo = (() => {
+        const registros = JSON.parse(localStorage.getItem('datosContadores') || '[]');
+        return registros
+            .sort((a, b) => new Date(b.fecha) - new Date(a.fecha)) // Ordenar por fecha descendente
+            .slice(0, 5); // Tomar solo los últimos 5
+    })();
+    
+    // Cargar últimos 5 registros de energía desde localStorage
+    const ultimos_registros_energia = (() => {
+        const registros = JSON.parse(localStorage.getItem('datosPlantas') || '[]');
+        return registros
+            .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+            .slice(0, 5);
+    })();
 
     return (
         <main className="container">
             <header className="dashboard-header">
-                <h1>Bienvenido, {user.username}!</h1>
+                <h1>Bienvenido, {usuarioLog}!</h1>
                 <h2>Panel Principal</h2>
                 <p>Este sistema te permite monitorear y gestionar el consumo de agua y energía del acueducto, registrar consumos, crear bombas y más.</p>
             </header>
@@ -88,10 +99,10 @@ function Index() {
                                     ultimos_registros_bombeo.map((registro, idx) => (
                                         <tr key={idx}>
                                             <td>{registro.fecha}</td>
-                                            <td>{registro.bomba.tipo.nombre}</td>
-                                            <td>{registro.bomba.nombre}</td>
-                                            <td>{registro.metros_cubicos} m³</td>
-                                            <td>{registro.usuario}</td>
+                                            <td>Bombeo</td>
+                                            <td>{registro.bomba || 'N/A'}</td>
+                                            <td>{registro.valor || registro.metros_cubicos} m³</td>
+                                            <td>{registro.usuario || 'Local'}</td>
                                         </tr>
                                     ))
                                 ) : (
@@ -120,10 +131,10 @@ function Index() {
                                     ultimos_registros_energia.map((registro, idx) => (
                                         <tr key={idx}>
                                             <td>{registro.fecha}</td>
-                                            <td>{registro.planta.tipo.nombre}</td>
-                                            <td>{registro.planta.nombre}</td>
-                                            <td>{registro.consumo_energia} kWh</td>
-                                            <td>{registro.usuario}</td>
+                                            <td>Energía</td>
+                                            <td>{registro.planta || 'N/A'}</td>
+                                            <td>{registro.valor || registro.consumo_energia} kWh</td>
+                                            <td>{registro.usuario || 'Local'}</td>
                                         </tr>
                                     ))
                                 ) : (

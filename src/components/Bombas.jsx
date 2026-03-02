@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getCurrentUser } from '../utils/session';
 import '../styles/consumo.scss';
 import Flatpickr from 'react-flatpickr';
 import { Spanish } from 'flatpickr/dist/l10n/es.js';
@@ -34,7 +35,8 @@ const handleSubmit = (e) => {
 					fecha: fechaStr,
 					bomba: bomba.nombre,
 					bomba_id: bomba.bomba_id,
-					valor: valoresInput[bomba.bomba_id]
+					valor: valoresInput[bomba.bomba_id],
+                    usuario: getCurrentUser()
 				});
 			}
 		});

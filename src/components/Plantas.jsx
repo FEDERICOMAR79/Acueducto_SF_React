@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getCurrentUser } from '../utils/session';
 import '../styles/consumo.scss';
 import Flatpickr from 'react-flatpickr';
 import { Spanish } from 'flatpickr/dist/l10n/es.js';
@@ -36,7 +37,8 @@ const Plantas = () => {
 						fecha: fechaStr,
 						planta: planta.nombre,
 						planta_id: planta.planta_id,
-						valor: valoresInput[planta.planta_id]
+						valor: valoresInput[planta.planta_id],
+                        usuario: getCurrentUser()
 					});
 				}
 			});
@@ -44,8 +46,6 @@ const Plantas = () => {
             setValoresInput({});
             setInvalidIds([]);
 		}
-		setLoading(true);
-		setTimeout(() => setLoading(false), 2000); // Simula carga
 	};
 
 	return (

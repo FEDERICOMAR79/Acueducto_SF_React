@@ -10,6 +10,7 @@ import "../styles/creaciones.scss";
 import {
   getM3Facturados,
   exportM3Facturados,
+  deleteM3Facturados,
 } from "../services/m3Facturados";
 
 const M3Facturados = () => {
@@ -34,21 +35,7 @@ const M3Facturados = () => {
   };
 
   const handleEliminar = (r) => {
-    // Eliminar del registro M3Facturados
-    let registrosLS = JSON.parse(localStorage.getItem("M3Facturados") || "[]");
-    const registrosFiltrados = registrosLS.filter((reg) => {
-      const fechaIgual = reg.fecha === r.fecha;
-      const valorIgual = (reg.metros_cubicos ?? reg.m3fact ?? reg.valor) === (r.metros_cubicos ?? r.m3fact ?? r.valor);
-      
-      // Intenta matching exacto por id primero
-      if (reg.id === r.id) return false;
-      // Luego matching por fecha y valor
-      if (fechaIgual && valorIgual) return false;
-      return true;
-    });
-    localStorage.setItem("M3Facturados", JSON.stringify(registrosFiltrados));
-
-    // Forzar actualización
+    deleteM3Facturados(r.id);
     setReloadTick((prev) => prev + 1);
   };
 

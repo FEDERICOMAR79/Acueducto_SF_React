@@ -61,3 +61,10 @@ export const exportM3Facturados = (fecha) => {
   a.click();
   URL.revokeObjectURL(url);
 };
+
+export const deleteM3Facturados = (id) => {
+  const registrosLS = JSON.parse(localStorage.getItem("M3Facturados") || "[]");
+  const registrosFiltrados = registrosLS.filter((reg) => reg.id !== id);
+  localStorage.setItem("M3Facturados", JSON.stringify(registrosFiltrados));
+  return registrosFiltrados;
+};

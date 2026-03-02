@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/styles.scss';
 import { Link } from 'react-router';
+import { setCurrentUser } from '../utils/session';
 
 const Login = ({ setIsAuthenticated }) => {
   const [username, setUsername] = useState('');
@@ -25,6 +26,7 @@ const Login = ({ setIsAuthenticated }) => {
       return;
     }
     setError('');
+    setCurrentUser(username); // Guarda el nombre de usuario en localStorage
     setIsAuthenticated(true); // Cambia el estado global para redirigir
   };
 
