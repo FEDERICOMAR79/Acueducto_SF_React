@@ -535,6 +535,9 @@
     padding: 5%;
     text-decoration: none;
     font-size: 13px;
+    width: 110px;
+    min-width: 110px;
+    max-width: 110px;
 }
 
 .btn-editar:hover {
@@ -550,7 +553,9 @@
     padding: 5%;
     text-decoration: none;
     font-size: 13px;
-    width: fit-content;
+    width: 110px;
+    min-width: 110px;
+    max-width: 110px;
 }
 
 .btn-eliminar:hover {
