@@ -14,6 +14,7 @@ import ConsumoDiarioKwh from './components/ConsumoDiarioKwh';
 import UsuariosTotales from './components/UsuariosTotales';
 import ConsumoUsuarios from './components/ConsumoUsuarios';
 import M3Facturados from './components/M3Facturados';
+import ConsM3Facturados from './components/ConsM3Facturados';
 import M3Perdidos from './components/M3Perdidos';
 import EficienciaBombeo from './components/EficienciaBombeo';
 
@@ -71,6 +72,14 @@ function App() {
           element={
             isAuthenticated
               ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><M3Facturados /></BaseLayout>
+              : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/consumo-m3-facturados"
+          element={
+            isAuthenticated
+              ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><ConsM3Facturados /></BaseLayout>
               : <Navigate to="/login" />
           }
         />

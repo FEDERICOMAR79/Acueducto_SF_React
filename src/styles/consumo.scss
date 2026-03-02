@@ -293,6 +293,27 @@
     text-align: center;
 }
 
+/* Ajuste específico para el selector de periodo en M3 Facturados */
+.m3fact-periodo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.m3fact-periodo #form-fecha-m3 {
+    display: inline-block !important;
+    width: auto;
+}
+
+.m3fact-periodo #monthpicker-m3.flatpickr-input {
+    width: 180px !important;
+    max-width: 180px;
+    display: inline-block;
+    text-align: center;
+}
+
 .facturacion-container {
     max-width: 60%;
     margin: 40px auto;

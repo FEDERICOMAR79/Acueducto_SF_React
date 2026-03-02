@@ -45,6 +45,8 @@ const Plantas = () => {
 				}
 			});
 			localStorage.setItem('datosPlantas', JSON.stringify(datosPlantas));
+            setValoresInput({});
+            setInvalidIds([]);
 		}
 		setLoading(true);
 		setTimeout(() => setLoading(false), 2000); // Simula carga

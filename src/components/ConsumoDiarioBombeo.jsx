@@ -132,7 +132,7 @@ const ConsumoDiarioBombeo = () => {
             <tbody>
               {registrosFiltrados.length === 0 ? (
                 <tr>
-                  <td colSpan="4" className="tabla-vacia">
+                  <td colSpan="3" className="tabla-vacia">
                     No hay registros para este día
                   </td>
                 </tr>

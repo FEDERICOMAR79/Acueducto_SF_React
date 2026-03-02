@@ -15,10 +15,11 @@ const M3Facturados = () => {
   const [fecha, setFecha] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [reloadTick, setReloadTick] = useState(0);
 
   useEffect(() => {
     fetchData();
-  }, [bombaId, fecha, page]);
+  }, [bombaId, fecha, page, reloadTick]);
 
   const fetchData = async () => {
     const data = await getM3Facturados({
@@ -30,6 +31,25 @@ const M3Facturados = () => {
     setBombas(data.bombas);
     setRegistros(data.registros);
     setTotalPages(data.total_pages);
+  };
+
+  const handleEliminar = (r) => {
+    // Eliminar del registro M3Facturados
+    let registrosLS = JSON.parse(localStorage.getItem("M3Facturados") || "[]");
+    const registrosFiltrados = registrosLS.filter((reg) => {
+      const fechaIgual = reg.fecha === r.fecha;
+      const valorIgual = (reg.metros_cubicos ?? reg.m3fact ?? reg.valor) === (r.metros_cubicos ?? r.m3fact ?? r.valor);
+      
+      // Intenta matching exacto por id primero
+      if (reg.id === r.id) return false;
+      // Luego matching por fecha y valor
+      if (fechaIgual && valorIgual) return false;
+      return true;
+    });
+    localStorage.setItem("M3Facturados", JSON.stringify(registrosFiltrados));
+
+    // Forzar actualización
+    setReloadTick((prev) => prev + 1);
   };
 
   return (
@@ -112,20 +132,20 @@ const M3Facturados = () => {
                   </td>
                 </tr>
               ) : (
-                registros.map((r) => (
-                  <tr key={r.id}>
+                registros.map((r, idx) => (
+                  <tr key={r.id || idx}>
                     <td>{r.fecha}</td>
-                    <td>{r.metros_cubicos}</td>
-                    <td>{r.usuario}</td>
+                    <td>{r.metros_cubicos ?? r.m3fact ?? r.valor}</td>
+                    <td>{r.usuario ?? "Local"}</td>
                     <td className="acciones">
                       <button className="btn-editar">Editar</button>
                       <button
                         className="btn-eliminar"
-                        onClick={() =>
-                          window.confirm(
-                            "¿Estás seguro de que deseas eliminar este registro?"
-                          )
-                        }
+                        onClick={() => {
+                          if (window.confirm("¿Estás seguro de que deseas eliminar este registro?")) {
+                            handleEliminar(r);
+                          }
+                        }}
                       >
                         Eliminar
                       </button>

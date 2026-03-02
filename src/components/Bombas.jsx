@@ -39,6 +39,8 @@ const handleSubmit = (e) => {
 			}
 		});
 		localStorage.setItem('datosContadores', JSON.stringify(datosContadores));
+        setValoresInput({});
+        setInvalidIds([]);
 	}
 	setLoading(true);
 	setTimeout(() => setLoading(false), 2000); // Simula carga

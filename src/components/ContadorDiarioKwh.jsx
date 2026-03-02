@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "../styles/monthSelect.scss";
 import "../styles/monthpicker-contador.scss";
 import "../styles/creaciones.scss";
+import { deleteContadorDiarioEnergiaCascade } from "../services/contadorDiarioKwh";
 
 const ContadorDiarioKwh = () => {
   const [plantas, setPlantas] = useState([]);
@@ -10,13 +11,14 @@ const ContadorDiarioKwh = () => {
   const [fecha, setFecha] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [reloadTick, setReloadTick] = useState(0);
 
   useEffect(() => {
     // Load plantas from localStorage
     const plantasLS = JSON.parse(localStorage.getItem("plantas") || "[]");
     setPlantas(plantasLS);
     // Filter registros
-    let registrosLS = JSON.parse(localStorage.getItem("contador_diario_kwh_registros") || "[]");
+    let registrosLS = JSON.parse(localStorage.getItem("datosPlantas") || "[]");
     let filtrados = registrosLS;
     if (plantaId) {
       filtrados = filtrados.filter(r => r.planta === plantaId || r.plantaId === plantaId);
@@ -32,20 +34,12 @@ const ContadorDiarioKwh = () => {
     const start = (page - 1) * pageSize;
     const end = start + pageSize;
     setRegistros(filtrados.slice(start, end));
-  }, [plantaId, fecha, page]);
+  }, [plantaId, fecha, page, reloadTick]);
 
   // Eliminar registro
-  const handleEliminar = (id, idx) => {
-    let registrosLS = JSON.parse(localStorage.getItem("contador_diario_kwh_registros") || "[]");
-    if (id !== undefined && id !== null) {
-      registrosLS = registrosLS.filter(r => r.id !== id);
-    } else {
-      registrosLS.splice(idx, 1);
-    }
-    localStorage.setItem("contador_diario_kwh_registros", JSON.stringify(registrosLS));
-    setPage(1);
-    setPlantaId("");
-    setFecha("");
+  const handleEliminar = (registroAEliminar) => {
+    deleteContadorDiarioEnergiaCascade(registroAEliminar);
+    setReloadTick((prev) => prev + 1);
   };
 
   return (
@@ -138,7 +132,7 @@ const ContadorDiarioKwh = () => {
                         className="btn-eliminar"
                         onClick={() => {
                           if (window.confirm("¿Eliminar registro?")) {
-                            handleEliminar(r.id, idx);
+                            handleEliminar(r);
                           }
                         }}
                       >
