@@ -5,11 +5,7 @@ import { Spanish } from 'flatpickr/dist/l10n/es.js';
 /*import 'flatpickr/dist/themes/material_blue.css';*/
 import 'flatpickr/dist/flatpickr.css';
 import '../styles/datepicker-custom.scss';
-
-const plantasEjemplo = [
-	{ planta_id: 1, nombre: 'Planta Principal' },
-	{ planta_id: 2, nombre: 'Planta Secundaria' },
-];
+import { plantasEjemplo } from '../services/Plantas';
 
 const Plantas = () => {
 	const [fechaActual, setFechaActual] = useState(new Date());

@@ -1,4 +1,8 @@
 import { useEffect, useState } from "react";
+import Flatpickr from "react-flatpickr";
+import { Spanish } from "flatpickr/dist/l10n/es.js";
+import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect";
+import "flatpickr/dist/flatpickr.css";
 import "../styles/monthSelect.scss";
 import "../styles/monthpicker-contador.scss";
 import "../styles/dashboard.scss";
@@ -9,9 +13,7 @@ import {
 } from "../services/m3Facturados";
 
 const M3Facturados = () => {
-  const [bombas, setBombas] = useState([]);
   const [registros, setRegistros] = useState([]);
-  const [bombaId, setBombaId] = useState("");
   const [fecha, setFecha] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -19,16 +21,14 @@ const M3Facturados = () => {
 
   useEffect(() => {
     fetchData();
-  }, [bombaId, fecha, page, reloadTick]);
+  }, [fecha, page, reloadTick]);
 
   const fetchData = async () => {
     const data = await getM3Facturados({
-      bomba: bombaId,
       fecha,
       page,
     });
 
-    setBombas(data.bombas);
     setRegistros(data.registros);
     setTotalPages(data.total_pages);
   };
@@ -72,36 +72,33 @@ const M3Facturados = () => {
           }}
         >
           <div className="filtro-grupo">
-            <label>Bomba:</label>
-            <select
-              value={bombaId}
-              onChange={(e) => setBombaId(e.target.value)}
-            >
-              <option value="">-- Todas las bombas --</option>
-              {bombas.map((b) => (
-                <option key={b.id} value={b.id}>
-                  {b.nombre}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="filtro-grupo">
             <label>Mes:</label>
-            <input
-              type="month"
+            <Flatpickr
+              id="monthpicker-unico-por-componente"  // ID único para evitar conflictos
+              className="flatpickr-input"             // ← MISMA CLASE para que use los estilos
               value={fecha}
-              onChange={(e) => setFecha(e.target.value)}
+              onChange={(selectedDates, dateStr) => setFecha(dateStr)}
+              options={{
+                locale: Spanish,
+                dateFormat: "Y-m",
+                allowInput: false,
+                plugins: [
+                  monthSelectPlugin({
+                    shorthand: true,
+                    dateFormat: "Y-m",
+                    altFormat: "F Y",
+                  }),
+                ],
+              }}
+              placeholder="Selecciona un mes"
             />
           </div>
 
           <div className="filtro-grupo">
-            <button className="btn-filtrar">Filtrar</button>
             <button
               type="button"
               className="btn-limpiar"
               onClick={() => {
-                setBombaId("");
                 setFecha("");
                 setPage(1);
               }}

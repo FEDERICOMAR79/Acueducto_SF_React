@@ -77,7 +77,6 @@ const ConsumoUsuarios = () => {
 						/>
 					</div>
 					<div className="filtro-grupo">
-						<button type="submit" className="btn-filtrar">Filtrar</button>
 						<button type="button" className="btn-limpiar" onClick={handleLimpiar}>Limpiar Filtros</button>
 					</div>
 				</form>

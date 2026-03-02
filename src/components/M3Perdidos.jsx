@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
+import Flatpickr from "react-flatpickr";
+import { Spanish } from "flatpickr/dist/l10n/es.js";
+import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect";
+import "flatpickr/dist/flatpickr.css";
 import "../styles/monthSelect.scss";
 import "../styles/monthpicker-contador.scss";
 import "../styles/dashboard.scss";
+import "../styles/creaciones.scss";
 import {
   getM3Perdidos,
   exportM3Perdidos,
@@ -44,15 +49,28 @@ const M3Perdidos = () => {
         >
           <div className="filtro-grupo">
             <label>Mes:</label>
-            <input
-              type="month"
+            <Flatpickr
+              id="monthpicker-unico-por-componente"  // ID único para evitar conflictos
+              className="flatpickr-input"             // ← MISMA CLASE para que use los estilos
               value={fecha}
-              onChange={(e) => setFecha(e.target.value)}
+              onChange={(selectedDates, dateStr) => setFecha(dateStr)}
+              options={{
+                locale: Spanish,
+                dateFormat: "Y-m",
+                allowInput: false,
+                plugins: [
+                  monthSelectPlugin({
+                    shorthand: true,
+                    dateFormat: "Y-m",
+                    altFormat: "F Y",
+                  }),
+                ],
+              }}
+              placeholder="Selecciona un mes"
             />
           </div>
 
           <div className="filtro-grupo">
-            <button className="btn-filtrar">Filtrar</button>
             <button
               type="button"
               className="btn-limpiar"

@@ -1,22 +1,30 @@
 import { useEffect, useState } from "react";
+import Flatpickr from "react-flatpickr";
+import { Spanish } from "flatpickr/dist/l10n/es.js";
+import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect";
+import "flatpickr/dist/flatpickr.css";
 import "../styles/monthSelect.scss";
 import "../styles/monthpicker-contador.scss";
-
-const bombasEjemplo = [
-  { bomba_id: 1, nombre: "Bomba Norte" },
-  { bomba_id: 2, nombre: "Bomba Sur" },
-];
+import "../styles/dashboard.scss";
+import "../styles/creaciones.scss";
+import { bombasEjemplo } from "../services/Bombas";
 
 const ConsumoDiarioBombeo = () => {
   const [registros, setRegistros] = useState(JSON.parse(localStorage.getItem("datosContadores") || "[]"));
   const [bombaId, setBombaId] = useState("");
   const [fecha, setFecha] = useState("");
 
-  // Calcular diferencias por bomba
+  // Filtrar registros por bomba y fecha PRIMERO
+  const registrosFiltrados = registros.filter((reg) =>
+    (bombaId === "" || reg.bomba_id == bombaId) &&
+    (fecha === "" || reg.fecha.startsWith(fecha))
+  );
+
+  // Calcular diferencias por bomba usando los registros YA FILTRADOS
   const diferenciasPorBomba = (() => {
     // Agrupar registros por bomba
     const agrupados = {};
-    registros.forEach((r) => {
+    registrosFiltrados.forEach((r) => {
       if (!agrupados[r.bomba_id]) agrupados[r.bomba_id] = [];
       agrupados[r.bomba_id].push(r);
     });
@@ -44,12 +52,6 @@ const ConsumoDiarioBombeo = () => {
     });
     return resultado;
   })();
-
-  // Filtrar registros por bomba y fecha
-  const registrosFiltrados = registros.filter((reg) =>
-    (bombaId === "" || reg.bomba_id == bombaId) &&
-    (fecha === "" || reg.fecha.startsWith(fecha))
-  );
 
   // Eliminar registro
   const handleEliminar = (id, idx) => {
@@ -94,16 +96,28 @@ const ConsumoDiarioBombeo = () => {
 
           <div className="filtro-grupo">
             <label>Mes:</label>
-            <input
-              type="month"
+            <Flatpickr
+              id="monthpicker-unico-por-componente"  // ID único para evitar conflictos
+              className="flatpickr-input"             // ← MISMA CLASE para que use los estilos
               value={fecha}
-              onChange={(e) => setFecha(e.target.value)}
-              className="monthpicker-custom"
+              onChange={(selectedDates, dateStr) => setFecha(dateStr)}
+              options={{
+                locale: Spanish,
+                dateFormat: "Y-m",
+                allowInput: false,
+                plugins: [
+                  monthSelectPlugin({
+                    shorthand: true,
+                    dateFormat: "Y-m",
+                    altFormat: "F Y",
+                  }),
+                ],
+              }}
+              placeholder="Selecciona un mes"
             />
           </div>
 
           <div className="filtro-grupo">
-            <button className="btn-filtrar" type="button">Filtrar</button>
             <button
               type="button"
               className="btn-limpiar"

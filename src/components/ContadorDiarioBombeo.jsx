@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
+import Flatpickr from "react-flatpickr";
+import { Spanish } from "flatpickr/dist/l10n/es.js";
+import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect";
+import "flatpickr/dist/flatpickr.css";
 import "../styles/monthSelect.scss";
 import "../styles/monthpicker-contador.scss";
 import "../styles/dashboard.scss";
 import "../styles/creaciones.scss";
 import { deleteContadorDiarioBombeoCascade } from "../services/contadorDiarioBombeo";
+import { bombasEjemplo } from '../services/Bombas';
 
 const ContadorDiarioBombeo = () => {
   const [bombas, setBombas] = useState([]);
@@ -15,14 +20,13 @@ const ContadorDiarioBombeo = () => {
   const [reloadTick, setReloadTick] = useState(0);
 
   useEffect(() => {
-    // Load bombas from localStorage
-    const bombasLS = JSON.parse(localStorage.getItem("bombas") || "[]");
-    setBombas(bombasLS);
+    // Load bombas from service
+    setBombas(bombasEjemplo);
     // Filter registros
     let registrosLS = JSON.parse(localStorage.getItem("datosContadores") || "[]");
     let filtrados = registrosLS;
     if (bombaId) {
-      filtrados = filtrados.filter(r => r.bomba === bombaId || r.bombaId === bombaId);
+      filtrados = filtrados.filter(r => r.bomba_id == bombaId || r.bombaId == bombaId || r.bomba == bombaId);
     }
     if (fecha) {
       filtrados = filtrados.filter(r => r.fecha && r.fecha.startsWith(fecha));
@@ -72,7 +76,7 @@ const ContadorDiarioBombeo = () => {
             <select value={bombaId} onChange={(e) => setBombaId(e.target.value)}>
               <option value="">-- Todas las bombas --</option>
               {bombas.map((b) => (
-                <option key={b.id} value={b.id}>
+                <option key={b.bomba_id} value={b.bomba_id}>
                   {b.nombre}
                 </option>
               ))}
@@ -81,16 +85,28 @@ const ContadorDiarioBombeo = () => {
 
           <div className="filtro-grupo">
             <label>Mes:</label>
-            <input
-              type="month"
+            <Flatpickr
+              id="monthpicker-unico-por-componente"  // ID único para evitar conflictos
+              className="flatpickr-input"             // ← MISMA CLASE para que use los estilos
               value={fecha}
-              onChange={(e) => setFecha(e.target.value)}
-              className="monthpicker-custom"
+              onChange={(selectedDates, dateStr) => setFecha(dateStr)}
+              options={{
+                locale: Spanish,
+                dateFormat: "Y-m",
+                allowInput: false,
+                plugins: [
+                  monthSelectPlugin({
+                    shorthand: true,
+                    dateFormat: "Y-m",
+                    altFormat: "F Y",
+                  }),
+                ],
+              }}
+              placeholder="Selecciona un mes"
             />
           </div>
 
           <div className="filtro-grupo">
-            <button className="btn-filtrar">Filtrar</button>
             <button
               type="button"
               className="btn-limpiar"
