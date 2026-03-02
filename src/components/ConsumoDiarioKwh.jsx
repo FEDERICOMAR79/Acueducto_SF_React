@@ -124,14 +124,15 @@ const ConsumoDiarioKwh = () => {
           <div className="filtro-grupo">
             <label>Mes:</label>
             <Flatpickr
-              id="monthpicker-unico-por-componente"  // ID único para evitar conflictos
-              className="flatpickr-input"             // ← MISMA CLASE para que use los estilos
+              id="monthpicker-consumo-kwh"
+              className="flatpickr-input"
               value={fecha}
               onChange={(selectedDates, dateStr) => setFecha(dateStr)}
               options={{
                 locale: Spanish,
                 dateFormat: "Y-m",
                 allowInput: false,
+                disableMobile: true,
                 plugins: [
                   monthSelectPlugin({
                     shorthand: true,
