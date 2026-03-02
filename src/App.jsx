@@ -17,6 +17,7 @@ import M3Facturados from './components/M3Facturados';
 import ConsM3Facturados from './components/ConsM3Facturados';
 import M3Perdidos from './components/M3Perdidos';
 import EficienciaBombeo from './components/EficienciaBombeo';
+import AgregarUsuarios from './components/AgregarUsuarios';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -128,6 +129,14 @@ function App() {
           element={
             isAuthenticated
               ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><ConsumoDiarioKwh /></BaseLayout>
+              : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/agregar-usuarios"
+          element={
+            isAuthenticated
+              ? <BaseLayout setIsAuthenticated={setIsAuthenticated}><AgregarUsuarios /></BaseLayout>
               : <Navigate to="/login" />
           }
         />

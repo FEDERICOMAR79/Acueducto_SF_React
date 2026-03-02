@@ -88,6 +88,7 @@ const ConsM3Facturados = () => {
 								locale: Spanish,
 								dateFormat: 'Y-m',
 								allowInput: false,
+								disableMobile: true,
 								plugins: [
 									new monthSelectPlugin({
 										shorthand: true,

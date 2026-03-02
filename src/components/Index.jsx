@@ -77,7 +77,7 @@ function Index() {
                         <Link to="/plantas" className="action-btn">Registrar Energía</Link>
                         <Link to="/bombas" className="action-btn">Registrar Bombeo</Link>
                         <Link to="/consumo-m3-facturados" className="action-btn">Registrar M³ Facturados</Link>
-                        <Link to="/registro_usuarios" className="action-btn">Registrar Usuarios</Link>
+                        <Link to="/agregar-usuarios" className="action-btn">Registrar Usuarios</Link>
                     </div>
                 </section>
 
