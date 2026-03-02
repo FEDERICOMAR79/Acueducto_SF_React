@@ -42,20 +42,24 @@ const handleSubmit = (e) => {
                 <header>
                     <h1>Registro de Bombas</h1>
                 </header>
-                <div className="periodo-actual">
+                <div className="periodo-actual bombas-periodo">
                     <span>Registrando datos para:</span>
-                    <div className="datepicker-wrapper bombas">
+                    <form id="form-fecha" style={{ display: 'inline' }}>
                         <Flatpickr
+                            id="datepicker"
+                            name="fecha"
+                            className="flatpickr-input"
                             value={fechaActual}
                             options={{
                                 locale: 'es',
                                 dateFormat: 'Y-m-d',
+                                allowInput: false,
                             }}
                             onChange={(selectedDates, dateStr) => {
                                 setFechaActual(selectedDates[0]);
                             }}
                         />
-                    </div>
+                    </form>
                 </div>
             </div>
                 

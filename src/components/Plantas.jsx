@@ -49,20 +49,24 @@ const Plantas = () => {
                     <header>
                         <h1>Registro de Plantas</h1>
                     </header>
-                    <div className="periodo-actual">
+                    <div className="periodo-actual plantas-periodo">
                         <span>Registrando datos para:</span>
-                        <div className="datepicker-wrapper">
+                        <form id="form-fecha-plantas" style={{ display: 'inline' }}>
                           <Flatpickr
+                              id="datepicker-plantas"
+                              name="fecha"
+                              className="flatpickr-input"
                               value={fechaActual}
                               options={{
                                   locale: 'es',
                                   dateFormat: 'Y-m-d',
+                                  allowInput: false,
                               }}
                               onChange={(selectedDates, dateStr) => {
                                   setFechaActual(selectedDates[0]);
                               }}
                           />
-                        </div>
+                        </form>
                     </div>
                 </div>
 

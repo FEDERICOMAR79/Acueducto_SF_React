@@ -251,6 +251,48 @@
     background: rgba(39, 211, 195, 0.1);
 }
 
+/* Ajuste específico para el selector de fecha en Bombas */
+.bombas-periodo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.bombas-periodo #form-fecha {
+    display: inline-block !important;
+    width: auto;
+}
+
+.bombas-periodo #datepicker.flatpickr-input {
+    width: 180px !important;
+    max-width: 180px;
+    display: inline-block;
+    text-align: center;
+}
+
+/* Ajuste específico para el selector de fecha en Plantas */
+.plantas-periodo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.plantas-periodo #form-fecha-plantas {
+    display: inline-block !important;
+    width: auto;
+}
+
+.plantas-periodo #datepicker-plantas.flatpickr-input {
+    width: 180px !important;
+    max-width: 180px;
+    display: inline-block;
+    text-align: center;
+}
+
 .facturacion-container {
     max-width: 60%;
     margin: 40px auto;
