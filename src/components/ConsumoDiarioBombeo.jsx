@@ -8,61 +8,99 @@ import "../styles/monthpicker-contador.scss";
 import "../styles/dashboard.scss";
 import "../styles/creaciones.scss";
 import { bombasEjemplo } from "../services/Bombas";
+import { deleteContadorDiarioBombeoCascade } from "../services/contadorDiarioBombeo";
 
 const ConsumoDiarioBombeo = () => {
   const [registros, setRegistros] = useState(JSON.parse(localStorage.getItem("datosContadores") || "[]"));
+  const [datosBombeo, setDatosBombeo] = useState(JSON.parse(localStorage.getItem("datosBombeo") || "[]"));
   const [bombaId, setBombaId] = useState("");
   const [fecha, setFecha] = useState("");
+  const [reloadTick, setReloadTick] = useState(0);
 
-  // Filtrar registros por bomba y fecha PRIMERO
-  const registrosFiltrados = registros.filter((reg) =>
-    (bombaId === "" || reg.bomba_id == bombaId) &&
-    (fecha === "" || reg.fecha.startsWith(fecha))
-  );
-
-  // Calcular diferencias por bomba usando los registros YA FILTRADOS
-  const diferenciasPorBomba = (() => {
+  // Función para recalcular diferencias
+  const recalcularDiferencias = () => {
+    const registrosLS = JSON.parse(localStorage.getItem("datosContadores") || "[]");
+    
     // Agrupar registros por bomba
     const agrupados = {};
-    registrosFiltrados.forEach((r) => {
+    registrosLS.forEach((r) => {
       if (!agrupados[r.bomba_id]) agrupados[r.bomba_id] = [];
       agrupados[r.bomba_id].push(r);
     });
-    // Para cada bomba, si hay al menos dos registros, tomar el último y el anterior, restar valores
+    
+    // Calcular diferencias por bomba
     const resultado = [];
     Object.entries(agrupados).forEach(([bomba_id, regs]) => {
       if (regs.length < 2) return;
+      
       // Ordenar por fecha ascendente
       const ordenados = regs.slice().sort((a, b) => a.fecha.localeCompare(b.fecha));
-      const penultimo = ordenados[ordenados.length - 2];
-      const ultimo = ordenados[ordenados.length - 1];
-      // Buscar el campo numérico correcto
-      const getValor = (r) => {
-        if (typeof r.valor !== 'undefined') return Number(r.valor);
-        if (typeof r.consumo !== 'undefined') return Number(r.consumo);
-        if (typeof r.consumo_energia !== 'undefined') return Number(r.consumo_energia);
-        return 0;
-      };
-      resultado.push({
-        fecha: ultimo.fecha,
-        bomba: ultimo.bomba,
-        bomba_id: ultimo.bomba_id,
-        valor: getValor(ultimo) - getValor(penultimo),
-      });
+      
+      // Calcular diferencias entre cada par consecutivo
+      for (let i = 1; i < ordenados.length; i++) {
+        const anterior = ordenados[i - 1];
+        const actual = ordenados[i];
+        
+        const getValor = (r) => {
+          if (typeof r.valor !== 'undefined') return Number(r.valor);
+          return 0;
+        };
+        
+        resultado.push({
+          id: actual.id || `${actual.fecha}-${actual.bomba_id}`,
+          fecha: actual.fecha,
+          bomba: actual.bomba,
+          bomba_id: actual.bomba_id,
+          valor: getValor(actual) - getValor(anterior),
+        });
+      }
     });
-    return resultado;
-  })();
+    
+    localStorage.setItem('datosBombeo', JSON.stringify(resultado));
+    setDatosBombeo(resultado);
+    setRegistros(registrosLS);
+  };
+
+  // Recalcular al montar y cuando cambie reloadTick
+  useEffect(() => {
+    recalcularDiferencias();
+  }, [reloadTick]);
+
+  // Detectar cambios en localStorage desde otras pestañas/componentes
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === 'datosContadores') {
+        recalcularDiferencias();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    
+    // También recalcular cuando la ventana vuelve a tener foco
+    const handleFocus = () => {
+      recalcularDiferencias();
+    };
+    
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, []);
+
+  // Filtrar datos de bombeo por bomba y fecha
+  const datosFiltrados = datosBombeo.filter((d) =>
+    (bombaId === "" || d.bomba_id == bombaId) &&
+    (fecha === "" || d.fecha.startsWith(fecha))
+  );
 
   // Eliminar registro
-  const handleEliminar = (id, idx) => {
-    let nuevosRegistros = [...registros];
-    if (id !== undefined && id !== null) {
-      nuevosRegistros = nuevosRegistros.filter((r) => r.id !== id);
-    } else {
-      nuevosRegistros.splice(idx, 1);
+  const handleEliminar = (registro) => {
+    if (window.confirm("¿Eliminar este registro?")) {
+      deleteContadorDiarioBombeoCascade(registro);
+      setReloadTick((prev) => prev + 1);
     }
-    setRegistros(nuevosRegistros);
-    localStorage.setItem("datosContadores", JSON.stringify(nuevosRegistros));
   };
 
   return (
@@ -145,18 +183,18 @@ const ConsumoDiarioBombeo = () => {
               </tr>
             </thead>
             <tbody>
-              {registrosFiltrados.length === 0 ? (
+              {datosFiltrados.length === 0 ? (
                 <tr>
                   <td colSpan="3" className="tabla-vacia">
-                    No hay registros para este día
+                    No hay registros
                   </td>
                 </tr>
               ) : (
-                diferenciasPorBomba.map((d, idx) => (
-                  <tr key={d.bomba + d.fecha + idx}>
+                datosFiltrados.map((d, idx) => (
+                  <tr key={d.id || d.bomba + d.fecha + idx}>
                     <td>{d.fecha}</td>
                     <td>{d.bomba}</td>
-                    <td>{d.valor}</td>
+                    <td>{d.valor.toFixed(2)} m³</td>
                   </tr>
                 ))
               )}

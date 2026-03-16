@@ -18,6 +18,7 @@ import ConsM3Facturados from './components/ConsM3Facturados';
 import M3Perdidos from './components/M3Perdidos';
 import EficienciaBombeo from './components/EficienciaBombeo';
 import AgregarUsuarios from './components/AgregarUsuarios';
+import PoliticsPrivacity from './components/Politics-privacity';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -35,6 +36,10 @@ function App() {
         <Route
           path="/signup"
           element={<Signup />}
+        />
+        <Route
+          path="/privacidad"
+          element={<PoliticsPrivacity />}
         />
         <Route
           path="/"

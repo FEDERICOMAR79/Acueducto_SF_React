@@ -60,6 +60,7 @@ export const deleteContadorDiarioBombeoCascade = (registroAEliminar) => {
 
   localStorage.setItem("datosContadores", JSON.stringify(nuevosRegistros));
 
+  // Eliminar de consumo_diario_bombeo_registros
   const consumoLS = JSON.parse(localStorage.getItem("consumo_diario_bombeo_registros") || "[]");
   if (Array.isArray(consumoLS) && consumoLS.length > 0) {
     const bombaIdEliminarConsumo = registroAEliminar?.bomba_id ?? registroAEliminar?.bombaId;
@@ -71,6 +72,19 @@ export const deleteContadorDiarioBombeoCascade = (registroAEliminar) => {
         )
     );
     localStorage.setItem("consumo_diario_bombeo_registros", JSON.stringify(consumoActualizado));
+  }
+
+  // Eliminar de datosBombeo (consumo diario calculado)
+  const datosBombeoLS = JSON.parse(localStorage.getItem("datosBombeo") || "[]");
+  if (Array.isArray(datosBombeoLS) && datosBombeoLS.length > 0) {
+    const datosBombeoActualizado = datosBombeoLS.filter(
+      (r) =>
+        !(
+          r.fecha === registroAEliminar.fecha &&
+          ((r.bomba_id ?? r.bombaId) == bombaIdEliminar || r.bomba === registroAEliminar.bomba)
+        )
+    );
+    localStorage.setItem("datosBombeo", JSON.stringify(datosBombeoActualizado));
   }
 
   return nuevosRegistros;
