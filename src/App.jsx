@@ -23,7 +23,7 @@ import PoliticsPrivacity from './components/Politics-privacity';
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/Acueducto_SF_React">
       <Routes>
         <Route
           path="/login"
