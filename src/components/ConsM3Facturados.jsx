@@ -121,14 +121,17 @@ const ConsM3Facturados = () => {
 								value={m3Facturados}
 								onChange={handleInputChange}
 							/>
-							<label htmlFor="m3_facturados">
-								Metros Cúbicos Facturados del Mes (m³)
+							<label
+								htmlFor="m3_facturados"
+								className={m3Facturados ? "label-hide" : ""}
+							>
+								m³
 							</label>
 						</div>
 					</div>
 					<div className="form-submit">
 						<button type="button" onClick={() => cambiarMes(-1)}>&lt; mes anterior</button>
-						<button type="submit" className="registrar-btn">Registrar consumo mensual</button>
+						<button type="submit" className="registrar-btn">Registrar Consumo</button>
 						<button type="button" onClick={() => cambiarMes(1)}>mes siguiente &gt;</button>
 					</div>
 				</form>
